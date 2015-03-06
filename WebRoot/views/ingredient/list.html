@@ -22,7 +22,7 @@
 				<th>Fat</th>
 				<th>Operations</th>
 			</tr>
-			<#list ingredients as ingredient>
+			<#list page.list as ingredient>
 			    <tr>
 			        <td>${ingredient.name}</td>
 			        <td>${ingredient.kind}</td>
@@ -36,26 +36,7 @@
 			    </tr>
 			</#list>
 		</table>
-		<div class="pagination pagination-centered">
-		  <ul>
-		  	<#if page==1>
-		  		<li class="disabled"><a href="###">Prev</a></li>
-		  	<#else>
-		  		<li><a href="/ingredient/list?page=${page-1}">Prev</a></li>
-		  	</#if>
-		    <#list 1..totalpage as item>
-		    	<#if page==item>
-		    		<li class="disabled"><a href="###">${item}</a></li>
-		    	<#else>	
-		    		<a href="/ingredient/list?page=${item}">${item}</a>
-		    	</#if>
-		    </#list>
-		    <#if page==totalpage>
-		    	<li class="disabled"><a href="###">Next</a></li>
-		    <#else>
-		    	<li><a href="/ingredient/list?page=${page+1}">Next</a></li>
-		    </#if>
-		  </ul>
-		</div>
+		<#include "/common/_paginate.html" />
+		<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/ingredient/list/" />
 	</body>
 </html>
