@@ -25,7 +25,11 @@ public class LoginController extends Controller {
 				username, EncrypMD5.eccryptString(password));
 		if (null != user) {
 			setSessionAttr("loginUser", user);
-			redirect("/");
+			if (username.equalsIgnoreCase("admin")) {
+				redirect("/dashboard");
+			} else {
+				redirect("/");
+			}
 		} else {
 			setAttr("loginErrorMsg", "username or password error!");
 		}
