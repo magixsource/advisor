@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <title>Application</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    
+	    <link href="/static/css/bootstrap.css" rel="stylesheet">
+   		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+	</head>
+	<body>
+		<table class="table">
+			<tr>
+				<th>Name</th>
+				<th>Dept</th>
+				<th>Operations</th>
+			</tr>
+			<#list page.list as disease>
+			    <tr>
+			        <td>${disease.name}</td>
+			        <td>${disease.dept}</td>
+			        <td><a class="btn btn-info" href="/disease/view/${disease.id}">Detail</a></td>
+			    </tr>
+			</#list>
+		</table>
+		<#include "/common/_paginate.html" />
+		<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/disease/list/" />
+	</body>
+</html>

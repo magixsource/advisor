@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <title>Application</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    
+	    <link href="/static/css/bootstrap.css" rel="stylesheet">
+   		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="span12">
+			<form class="form-horizontal" id="viewForm" name="viewForm" action="" method="post">
+				<div class="control-group">
+					<label class="control-label" for="name">名称</label>
+					<div class="controls">
+						<input type="text" name="name" id="name" value="${(disease.name)!}" readonly="readonly" />
+						<span class="help-inline">${nameMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="content">类别</label>
+					<div class="controls">
+						<input type="text" name="dept" id="dept" value="${(disease.dept)!}" readonly="readonly" />
+						<span class="help-inline">${deptMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="content">简介</label>
+					<div class="controls">
+						<textarea rows="10" cols="20" name="summary" id="summary" readonly="readonly">${(disease.summary)!}</textarea>
+						<span class="help-inline">${summaryMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="content">治疗</label>
+					<div class="controls">
+						<textarea rows="10" cols="20" name="treatment" id="treatment" readonly="readonly">${(disease.treatment)!}</textarea>
+						<span class="help-inline">${treatmentMsg!''}</span>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+	</body>
+</html>
