@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <title>Application</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    
+	    <link href="/static/css/bootstrap.css" rel="stylesheet">
+   		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+	</head>
+	<body>
+		<table class="table">
+			<tr>
+				<th>Name</th>
+				<th>Kind</th>
+				<th>Origin</th>
+				<th>Edible Part</th>
+				<th>Energy</th>
+				<th>Water</th>
+				<th>Protein</th>
+				<th>Fat</th>
+				<th>Operations</th>
+			</tr>
+			<#list ingredients as ingredient>
+			    <tr>
+			        <td>${ingredient.name}</td>
+			        <td>${ingredient.kind}</td>
+			        <td>${ingredient.origin}</td>
+			        <td>${ingredient.edible_part}</td>
+			        <td>${ingredient.energy}</td>
+			        <td>${ingredient.water}</td>
+			        <td>${ingredient.protein}</td>
+			        <td>${ingredient.fat}</td>
+			        <td><a class="btn btn-info" href="/ingredient/detail?sid=${ingredient.sid}">Details</a></td>
+			    </tr>
+			</#list>
+		</table>
+		<div class="pagination pagination-centered">
+		  <ul>
+		  	<#if page==1>
+		  		<li class="disabled"><a href="###">Prev</a></li>
+		  	<#else>
+		  		<li><a href="/ingredient/list?page=${page-1}">Prev</a></li>
+		  	</#if>
+		    <#list 1..totalpage as item>
+		    	<#if page==item>
+		    		<li class="disabled"><a href="###">${item}</a></li>
+		    	<#else>	
+		    		<a href="/ingredient/list?page=${item}">${item}</a>
+		    	</#if>
+		    </#list>
+		    <#if page==totalpage>
+		    	<li class="disabled"><a href="###">Next</a></li>
+		    <#else>
+		    	<li><a href="/ingredient/list?page=${page+1}">Next</a></li>
+		    </#if>
+		  </ul>
+		</div>
+	</body>
+</html>
