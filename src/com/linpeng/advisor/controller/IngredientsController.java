@@ -25,7 +25,7 @@ public class IngredientsController extends Controller {
 	}
 
 	public void detail() {
-		int id = getParaToInt("sid");
+		int id = getParaToInt("id");
 		Ingredient ingredient = Ingredient.dao.findById(id);
 		setAttr("ingredient", ingredient);
 		render("detail.html");
