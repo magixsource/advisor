@@ -1,7 +1,9 @@
 package com.linpeng.advisor.controller;
 
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.linpeng.advisor.model.Disease;
+import com.linpeng.advisor.validator.DiseaseFormValidator;
 
 /**
  * Disease Controller
@@ -26,6 +28,7 @@ public class DiseaseController extends Controller {
 		setAttr("disease", Disease.dao.findById(sid));
 	}
 
+	@Before(DiseaseFormValidator.class)
 	public void save() {
 		String sid = getPara("sid", null);
 		String name = getPara("name");
