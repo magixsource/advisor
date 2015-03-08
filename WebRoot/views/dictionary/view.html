@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <title>Application</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    
+	    <link href="/static/css/bootstrap.css" rel="stylesheet">
+   		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="span12">
+			<form class="form-horizontal" id="viewForm" name="viewForm" action="" method="post">
+				<input type="hidden" id="id" name="id" value="${(dictionarykind.id)!}" />
+				<div class="control-group">
+					<label class="control-label" for="title">标题</label>
+					<div class="controls">
+						<input type="text" name="title" id="title" value="${(dictionarykind.title)!}" readonly="readonly" />
+						<span class="help-inline">${titleMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="kind">类别</label>
+					<div class="controls">
+						<input type="text" name="kind" id="kind" value="${(dictionarykind.kind)!}" readonly="readonly" />
+						<span class="help-inline">${kindMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="parentid">父级</label>
+					<div class="controls">
+						<input type="text" name="parentid" id="parentid" value="${(dictionarykind.parentid)!}" readonly="readonly" />
+						<span class="help-inline">${parentidMsg!''}</span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

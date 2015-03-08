@@ -13,9 +13,12 @@ import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.render.ViewType;
+import com.linpeng.advisor.controller.DictionaryController;
 import com.linpeng.advisor.controller.DiseaseController;
 import com.linpeng.advisor.controller.IngredientsController;
 import com.linpeng.advisor.controller.LoginController;
+import com.linpeng.advisor.model.Dictionary;
+import com.linpeng.advisor.model.DictionaryKind;
 import com.linpeng.advisor.model.Disease;
 import com.linpeng.advisor.model.Ingredient;
 import com.linpeng.advisor.model.User;
@@ -40,6 +43,7 @@ public class BaseConfig extends JFinalConfig {
 		me.add("/login", LoginController.class, "login");
 		me.add("/ingredient", IngredientsController.class, "ingredient");
 		me.add("/disease", DiseaseController.class, "disease");
+		me.add("/dictionary", DictionaryController.class, "dictionary");
 	}
 
 	@Override
@@ -56,6 +60,8 @@ public class BaseConfig extends JFinalConfig {
 		arp.addMapping("user", User.class);
 		arp.addMapping("ingredients", Ingredient.class);
 		arp.addMapping("disease", Disease.class);
+		arp.addMapping("dictionary_kind", DictionaryKind.class);
+		arp.addMapping("dictionary", Dictionary.class);
 	}
 
 	@Override
