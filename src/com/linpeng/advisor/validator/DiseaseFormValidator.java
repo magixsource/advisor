@@ -2,6 +2,7 @@ package com.linpeng.advisor.validator;
 
 import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;
+import com.linpeng.advisor.model.Dictionary;
 
 /**
  * Disease Validator
@@ -20,6 +21,8 @@ public class DiseaseFormValidator extends Validator {
 	@Override
 	protected void handleError(Controller c) {
 		c.keepPara("sid");
+		c.setAttr("dictionaryList", Dictionary.dao
+				.find("select * from dictionary where kind='LP_ORGCODE'"));
 		c.render("create.html");
 	}
 

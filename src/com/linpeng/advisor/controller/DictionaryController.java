@@ -119,7 +119,11 @@ public class DictionaryController extends Controller {
 		String code = getPara("code");
 
 		if (null == id) {
-			new Dictionary().set("title", title).set("kindid", kindId)
+
+			new Dictionary()
+					.set("title", title)
+					.set("kind",
+							DictionaryKind.dao.findById(kindId).get("kind"))
 					.set("code", code).save();
 		} else {
 			Dictionary.dao.findById(id).set("title", title).set("code", code)
@@ -151,7 +155,8 @@ public class DictionaryController extends Controller {
 		int pageSize = getParaToInt("pagesize", 10);
 
 		setAttr("page", Dictionary.dao.paginate(pageNumber, pageSize,
-				"select *", " from dictionary where kindid=?", kindId));
+				"select *", " from dictionary where kind=?", DictionaryKind.dao
+						.findById(kindId).get("kind")));
 
 		render("all.html");
 	}

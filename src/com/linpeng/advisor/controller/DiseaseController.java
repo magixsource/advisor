@@ -2,6 +2,7 @@ package com.linpeng.advisor.controller;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.linpeng.advisor.model.Dictionary;
 import com.linpeng.advisor.model.Disease;
 import com.linpeng.advisor.validator.DiseaseFormValidator;
 
@@ -14,18 +15,26 @@ import com.linpeng.advisor.validator.DiseaseFormValidator;
 public class DiseaseController extends Controller {
 
 	public void create() {
-
+		setAttr("dictionaryList",
+				Dictionary.dao
+						.find("select * from dictionary where kind='LP_ORGCODE'"));
 	}
 
 	public void modify() {
 		String sid = getPara("sid");
 		setAttr("disease", Disease.dao.findById(sid));
+		setAttr("dictionaryList",
+				Dictionary.dao
+						.find("select * from Dictionary where kind='LP_ORGCODE'"));
 		render("create.html");
 	}
 
 	public void view() {
 		String sid = getPara(0);
 		setAttr("disease", Disease.dao.findById(sid));
+		setAttr("dictionaryList",
+				Dictionary.dao
+						.find("select * from Dictionary where kind='LP_ORGCODE'"));
 	}
 
 	@Before(DiseaseFormValidator.class)
@@ -60,6 +69,9 @@ public class DiseaseController extends Controller {
 
 		setAttr("page", Disease.dao.paginate(pageNumber, pageSize, "select *",
 				" from disease"));
+		setAttr("dictionaryList",
+				Dictionary.dao
+						.find("select * from Dictionary where kind='LP_ORGCODE'"));
 
 		render("list.html");
 	}
