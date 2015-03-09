@@ -8,27 +8,33 @@
 	    
 	    <link href="/static/css/bootstrap.css" rel="stylesheet">
    		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+   		<link href="/static/css/style.css" rel="stylesheet">
 	</head>
 	<body>
-		<table class="table">
-			<tr>
-				<th>Title</th>
-				<th>Kind</th>
-				<th>Parent</th>
-				<th>Operations</th>
-			</tr>
-			<#list page.list as item>
-			    <tr>
-			        <td>${(item.title)!}</td>
-			        <td>${(item.kind)!}</td>
-			        <td>${(item.parentid)!}</td>
-			        <td>
-			        	<a class="btn btn-info" href="/dictionary/add/${item.id}">Add</a>
-			        	| <a class="btn btn-info" href="/dictionary/all/${item.id}">List</a>
-			        </td>
-			    </tr>
-			</#list>
-		</table>
+		<#include "/common/_menu.html" />
+		<@menu/>
+		
+		<div class="span12">
+			<table class="table">
+				<tr>
+					<th>Title</th>
+					<th>Kind</th>
+					<th>Parent</th>
+					<th>Operations</th>
+				</tr>
+				<#list page.list as item>
+				    <tr>
+				        <td>${(item.title)!}</td>
+				        <td>${(item.kind)!}</td>
+				        <td>${(item.parentid)!}</td>
+				        <td>
+				        	<a class="btn btn-info" href="/dictionary/add/${item.id}">Add</a>
+				        	| <a class="btn btn-info" href="/dictionary/all/${item.id}">List</a>
+				        </td>
+				    </tr>
+				</#list>
+			</table>
+		</div>
 		<#include "/common/_paginate.html" />
 		<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/dictionary/list/" />
 	</body>

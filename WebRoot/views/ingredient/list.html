@@ -8,35 +8,41 @@
 	    
 	    <link href="/static/css/bootstrap.css" rel="stylesheet">
    		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+   		<link href="/static/css/style.css" rel="stylesheet">
 	</head>
 	<body>
-		<table class="table">
-			<tr>
-				<th>Name</th>
-				<th>Kind</th>
-				<th>Origin</th>
-				<th>Edible Part</th>
-				<th>Energy</th>
-				<th>Water</th>
-				<th>Protein</th>
-				<th>Fat</th>
-				<th>Operations</th>
-			</tr>
-			<#list page.list as ingredient>
-			    <tr>
-			        <td>${ingredient.name}</td>
-			        <td>${ingredient.kind}</td>
-			        <td>${ingredient.origin}</td>
-			        <td>${ingredient.edible_part}</td>
-			        <td>${ingredient.energy}</td>
-			        <td>${ingredient.water}</td>
-			        <td>${ingredient.protein}</td>
-			        <td>${ingredient.fat}</td>
-			        <td><a class="btn btn-info" href="/ingredient/detail?id=${ingredient.id}">Details</a></td>
-			    </tr>
-			</#list>
-		</table>
-		<#include "/common/_paginate.html" />
-		<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/ingredient/list/" />
+		<#include "/common/_menu.html" />
+		<@menu/>
+		<div class="span12">
+			<table class="table">
+				<tr>
+					<th>Name</th>
+					<th>Kind</th>
+					<th>Origin</th>
+					<th>Edible Part</th>
+					<th>Energy</th>
+					<th>Water</th>
+					<th>Protein</th>
+					<th>Fat</th>
+					<th>Operations</th>
+				</tr>
+				<#list page.list as ingredient>
+				    <tr>
+				        <td>${ingredient.name}</td>
+				        <td>${ingredient.kind}</td>
+				        <td>${ingredient.origin}</td>
+				        <td>${ingredient.edible_part}</td>
+				        <td>${ingredient.energy}</td>
+				        <td>${ingredient.water}</td>
+				        <td>${ingredient.protein}</td>
+				        <td>${ingredient.fat}</td>
+				        <td><a class="btn btn-info" href="/ingredient/detail?id=${ingredient.id}">Details</a></td>
+				    </tr>
+				</#list>
+			</table>
+			<#include "/common/_paginate.html" />
+			<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/ingredient/list/" />
+		</div>
+		
 	</body>
 </html>

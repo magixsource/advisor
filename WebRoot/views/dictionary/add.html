@@ -8,8 +8,12 @@
 	    
 	    <link href="/static/css/bootstrap.css" rel="stylesheet">
    		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+   		<link href="/static/css/style.css" rel="stylesheet">
 	</head>
 	<body>
+		<#include "/common/_menu.html" />
+		<@menu/>
+		
 		<div class="span12">
 			<form class="form-horizontal" id="createForm" name="createForm" action="/dictionary/saveDict" method="post">
 				<input type="hidden" id="kindid" name="kindid" value="${(dictionarykind.id)!}" />
