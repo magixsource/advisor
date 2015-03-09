@@ -17,6 +17,7 @@ import com.linpeng.advisor.controller.DictionaryController;
 import com.linpeng.advisor.controller.DiseaseController;
 import com.linpeng.advisor.controller.IngredientsController;
 import com.linpeng.advisor.controller.LoginController;
+import com.linpeng.advisor.controller.SignController;
 import com.linpeng.advisor.model.Dictionary;
 import com.linpeng.advisor.model.DictionaryKind;
 import com.linpeng.advisor.model.Disease;
@@ -40,10 +41,21 @@ public class BaseConfig extends JFinalConfig {
 
 	@Override
 	public void configRoute(Routes me) {
+		// Common-Manage module
 		me.add("/login", LoginController.class, "login");
+		me.add("/signup", SignController.class, "signup");
+
+		// User Module
+
+		// Food Module
 		me.add("/ingredient", IngredientsController.class, "ingredient");
+
+		// Disease Module
 		me.add("/disease", DiseaseController.class, "disease");
+
+		// Common-Dictionary module
 		me.add("/dictionary", DictionaryController.class, "dictionary");
+
 	}
 
 	@Override

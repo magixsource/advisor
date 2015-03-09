@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <title>Application</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    
+	    <link href="/static/css/bootstrap.css" rel="stylesheet">
+   		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="span12">
+			<form class="form-horizontal" id="createForm" name="createForm" action="/signup/save" method="post">
+				<div class="control-group">
+					<label class="control-label" for="username">用户名</label>
+					<div class="controls">
+						<input type="text" name="username" id="username" value="${(user.username)!}" />
+						<span class="help-inline">${usernameMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="password">密码</label>
+					<div class="controls">
+						<input type="text" name="password" id="password" value="${(user.password)!}" />
+						<span class="help-inline">${passwordMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary" value="Save" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
