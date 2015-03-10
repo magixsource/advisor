@@ -45,12 +45,50 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="content">治疗</label>
+					<label class="control-label" for="treatment">治疗</label>
 					<div class="controls">
 						<textarea rows="10" cols="20" name="treatment" id="treatment">${(disease.treatment)!}</textarea>
 						<span class="help-inline">${treatmentMsg!''}</span>
 					</div>
 				</div>
+				
+				<!-- Rule begin -->
+				<div class="control-group">
+					<label class="control-label" for="rule_more">多</label>
+					<div class="controls">
+						<select class="" multiple="multiple" id="rule_more" name="rule_more" value="${(rule_more)!}">
+							  <#list dictionaryIngredients as item>
+							  	<option value="${item.code}">${item.title}</option>
+							  </#list>
+						</select>
+						<span class="help-inline">${rule_moreMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="rule_less">少</label>
+					<div class="controls">
+						<select class="" multiple="multiple" id="rule_less" name="rule_less" value="${(rule_less)!}">
+							  <#list dictionaryIngredients as item>
+							  	<option value="${item.code}">${item.title}</option>
+							  </#list>
+						</select>
+						<span class="help-inline">${rule_lessMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="rule_no">禁</label>
+					<div class="controls">
+						<select class="" multiple="multiple" id="rule_no" name="rule_no" value="${(rule_no)!}">
+							  <#list dictionaryIngredients as item>
+							  	<option value="${item.code}">${item.title}</option>
+							  </#list>
+						</select>
+						<span class="help-inline">${rule_noMsg!''}</span>
+					</div>
+				</div>
+				
+				<!-- Rule End -->
+				
 				<div class="control-group">
 					<div class="controls">
 						<input type="submit" class="btn btn-primary" value="Save" />

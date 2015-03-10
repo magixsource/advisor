@@ -14,16 +14,19 @@ import com.linpeng.advisor.validator.DiseaseFormValidator;
  */
 public class DiseaseController extends Controller {
 
-	public static final String FIND_DISEASE_DEPT = "select * from dictionary where kind='LP_ORGCODE'";
+	public static final String FIND_DISEASE_DEPT = "SELECT * FROM dictionary WHERE kind='LP_ORGCODE'";
+	public static final String FIND_FOOD_INGRED = "SELECT * FROM dictionary WHERE kind='APP_DICT_INGRED'";
 
 	public void create() {
 		setAttr("dictionaryList", Dictionary.dao.find(FIND_DISEASE_DEPT));
+		setAttr("dictionaryIngredients", Dictionary.dao.find(FIND_FOOD_INGRED));
 	}
 
 	public void modify() {
 		String sid = getPara(0);
 		setAttr("disease", Disease.dao.findById(sid));
 		setAttr("dictionaryList", Dictionary.dao.find(FIND_DISEASE_DEPT));
+		setAttr("dictionaryIngredients", Dictionary.dao.find(FIND_FOOD_INGRED));
 		render("create.html");
 	}
 
@@ -31,6 +34,7 @@ public class DiseaseController extends Controller {
 		String sid = getPara(0);
 		setAttr("disease", Disease.dao.findById(sid));
 		setAttr("dictionaryList", Dictionary.dao.find(FIND_DISEASE_DEPT));
+		setAttr("dictionaryIngredients", Dictionary.dao.find(FIND_FOOD_INGRED));
 	}
 
 	@Before(DiseaseFormValidator.class)
