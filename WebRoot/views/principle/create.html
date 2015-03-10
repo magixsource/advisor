@@ -1,0 +1,99 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <title>Application</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    
+	    <link href="/static/css/bootstrap.css" rel="stylesheet">
+   		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+   		<link href="/static/css/select2.css" rel="stylesheet">
+   		<link href="/static/css/style.css" rel="stylesheet">
+	</head>
+	<body>
+	    <#include "/common/_menu.html" />
+		<@menu/>
+		
+		<div class="span12">
+			<form class="form-horizontal" id="createForm" name="createForm" action="/principle/save" method="post">
+				<input type="hidden" id="diseaseid" name="diseaseid" value="${(diseaseid)!}" />
+				<input type="hidden" id="id" name="id" value="${(principle.id)!}" />
+				
+				<!-- Rule begin -->
+				<div class="control-group">
+					<label class="control-label" for="rule_more">多</label>
+					<div class="controls">
+						<select class="" multiple="multiple" id="rule_more" name="rule_more" value="${(principle.rule_more)!}">
+							  <#assign arrMore=((principle.rule_more)?split(","))! />
+							  <#list dictionaryIngredients as item>
+							  	<option 
+							  		<#list arrMore as str>
+							  			<#if str == item.code>
+							  				selected="selected"
+							  			</#if>
+							  		</#list>
+							  		value="${item.code}">
+							  		${item.title}
+							  	</option>
+							  </#list>
+						</select>
+						<span class="help-inline">${rule_moreMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="rule_less">少</label>
+					<div class="controls">
+						<select class="" multiple="multiple" id="rule_less" name="rule_less" value="${(principle.rule_less)!}">
+							  <#assign arrLess=((principle.rule_less)?split(","))! />
+							  <#list dictionaryIngredients as item>
+							  	<option 
+							  		<#list arrLess as str>
+							  			<#if str == item.code>
+							  				selected="selected"
+							  			</#if>
+							  		</#list>
+							  		value="${item.code}">
+							  		${item.title}
+							  	</option>
+							  </#list>
+						</select>
+						<span class="help-inline">${rule_lessMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="rule_no">禁</label>
+					<div class="controls">
+						<select class="" multiple="multiple" id="rule_no" name="rule_no" value="${(principle.rule_no)!}">
+							  <#assign arrNo=((principle.rule_no)?split(","))! />
+							  <#list dictionaryIngredients as item>
+							  	<option 
+							  		<#list arrNo as str>
+							  			<#if str == item.code>
+							  				selected="selected"
+							  			</#if>
+							  		</#list>
+							  		value="${item.code}">
+							  		${item.title}
+							  	</option>
+							  </#list>
+						</select>
+						<span class="help-inline">${rule_noMsg!''}</span>
+					</div>
+				</div>
+				<!-- Rule End -->
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary" value="Save" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+	<script src="/static/js/jquery.js"></script>
+	<script src="/static/js/select2.full.js"></script>
+	<script type="text/javascript">
+	  $('select').select2();
+	</script>
+</html>
