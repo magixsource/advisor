@@ -151,7 +151,7 @@ public class DictionaryController extends Controller {
 	 */
 	public void all() {
 		int kindId = getParaToInt(0);
-		int pageNumber = getParaToInt(1, 1);
+		int pageNumber = getParaToInt("page", 1);
 		int pageSize = getParaToInt("pagesize", 10);
 		
 		setAttr("kindid", kindId);
