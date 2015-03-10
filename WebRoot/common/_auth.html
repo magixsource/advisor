@@ -1,0 +1,10 @@
+<#macro auth role>
+	<#local isAuth = false />
+	
+	<#if loginUser??>
+		<#if loginUser.username == role>
+			<#local isAuth = true />
+		</#if>
+	</#if>
+	<#assign authResult = isAuth />			
+</#macro>	    
