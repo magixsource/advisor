@@ -18,6 +18,7 @@ import com.linpeng.advisor.controller.DiseaseController;
 import com.linpeng.advisor.controller.IngredientsController;
 import com.linpeng.advisor.controller.LoginController;
 import com.linpeng.advisor.controller.MenuController;
+import com.linpeng.advisor.controller.PrincipleController;
 import com.linpeng.advisor.controller.SignController;
 import com.linpeng.advisor.interceptor.MenuInjectIntercepter;
 import com.linpeng.advisor.model.Dictionary;
@@ -25,6 +26,7 @@ import com.linpeng.advisor.model.DictionaryKind;
 import com.linpeng.advisor.model.Disease;
 import com.linpeng.advisor.model.Ingredient;
 import com.linpeng.advisor.model.Menu;
+import com.linpeng.advisor.model.Principle;
 import com.linpeng.advisor.model.User;
 
 /**
@@ -60,6 +62,8 @@ public class BaseConfig extends JFinalConfig {
 		// Common-Dictionary module
 		me.add("/dictionary", DictionaryController.class, "dictionary");
 
+		// Advice module
+		me.add("/principle", PrincipleController.class, "principle");
 	}
 
 	@Override
@@ -79,6 +83,7 @@ public class BaseConfig extends JFinalConfig {
 		arp.addMapping("dictionary_kind", DictionaryKind.class);
 		arp.addMapping("dictionary", Dictionary.class);
 		arp.addMapping("menu", Menu.class);
+		arp.addMapping("principle", Principle.class);
 	}
 
 	@Override

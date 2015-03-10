@@ -24,8 +24,6 @@ public class DiseaseFormValidator extends Validator {
 		c.keepPara("sid");
 		c.setAttr("dictionaryList",
 				Dictionary.dao.find(DiseaseController.FIND_DISEASE_DEPT));
-		c.setAttr("dictionaryIngredients",
-				Dictionary.dao.find(DiseaseController.FIND_FOOD_INGRED));
 		c.render("create.html");
 	}
 
