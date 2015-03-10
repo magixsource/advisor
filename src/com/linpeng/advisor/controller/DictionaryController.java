@@ -153,11 +153,16 @@ public class DictionaryController extends Controller {
 		int kindId = getParaToInt(0);
 		int pageNumber = getParaToInt("page", 1);
 		int pageSize = getParaToInt("pagesize", 10);
-		
+
 		setAttr("kindid", kindId);
-		setAttr("page", Dictionary.dao.paginate(pageNumber, pageSize,
-				"select *", " from dictionary where kind=?", DictionaryKind.dao
-						.findById(kindId).get("kind")));
+		setAttr("page",
+				Dictionary.dao
+						.paginate(
+								pageNumber,
+								pageSize,
+								"select t.*",
+								" from dictionary t,dictionary_kind k where t.kind=k.kind and k.id=?",
+								kindId));
 
 		render("all.html");
 	}
