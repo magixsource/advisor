@@ -21,7 +21,7 @@ public class DiseaseController extends Controller {
 	}
 
 	public void modify() {
-		String sid = getPara("sid");
+		String sid = getPara(0);
 		setAttr("disease", Disease.dao.findById(sid));
 		setAttr("dictionaryList", Dictionary.dao.find(FIND_DISEASE_DEPT));
 		render("create.html");
@@ -53,8 +53,8 @@ public class DiseaseController extends Controller {
 		redirect("/disease/list");
 	}
 
-	public void remove() {
-		String sid = getPara("sid");
+	public void delete() {
+		String sid = getPara(0);
 		Disease.dao.deleteById(sid);
 		redirect("/disease/list");
 	}

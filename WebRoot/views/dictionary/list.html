@@ -11,10 +11,21 @@
    		<link href="/static/css/style.css" rel="stylesheet">
 	</head>
 	<body>
+		<#include "/common/_auth.html" />
 		<#include "/common/_menu.html" />
+		<#include "/common/_paginate.html" />
+		
 		<@menu/>
 		
 		<div class="span12">
+			<@auth role="admin" />
+			
+			<#if authResult>
+				<div class="text-right">
+					<a href="/dictionary/create" class="btn btn-primary">Create</a>
+				</div>
+			</#if>
+			
 			<table class="table">
 				<tr>
 					<th>Title</th>
@@ -28,14 +39,20 @@
 				        <td>${(item.kind)!}</td>
 				        <td>${(item.parentid)!}</td>
 				        <td>
-				        	<a class="btn btn-info" href="/dictionary/add/${item.id}">Add</a>
-				        	| <a class="btn btn-info" href="/dictionary/all/${item.id}">List</a>
+				        	<a class="btn btn-info" href="/dictionary/view/${item.id}">View</a>
+				        	<#if authResult>
+				        		| <a class="btn btn-info" href="/dictionary/add/${item.id}">Add</a>
+				        		| <a class="btn btn-info" href="/dictionary/all/${item.id}">List</a>
+				        		| <a class="btn btn-info" href="/dictionary/modify/${item.id}">Modify</a>
+				        		| <a class="btn btn-info" href="/dictionary/delete/${item.id}">Delete</a>
+				        	</#if>
+				        	
 				        </td>
 				    </tr>
 				</#list>
 			</table>
 		</div>
-		<#include "/common/_paginate.html" />
+		
 		<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/dictionary/list/" />
 	</body>
 </html>

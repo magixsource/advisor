@@ -12,8 +12,18 @@
 	</head>
 	<body>
 		<#include "/common/_menu.html" />
+		<#include "/common/_auth.html" />
+		<#include "/common/_paginate.html" />
+		
 		<@menu/>
+		
 		<div class="span12">
+			<@auth role="admin" />
+			<#if authResult>
+				<div class="text-right">
+					<a href="/disease/create" class="btn btn-primary">Create</a>
+				</div>
+			</#if>
 			<table class="table">
 				<tr>
 					<th>Name</th>
@@ -24,12 +34,18 @@
 				    <tr>
 				        <td>${disease.name}</td>
 				        <td>${disease.dept}</td>
-				        <td><a class="btn btn-info" href="/disease/view/${disease.id}">Detail</a></td>
+				        <td>
+				        	<a class="btn btn-info" href="/disease/view/${disease.id}">Detail</a>
+				        	<#if authResult>
+								| <a class="btn btn-info" href="/disease/modify/${disease.id}">Modify</a>
+			        			| <a class="btn btn-danger" href="/disease/delete/${disease.id}">Delete</a>
+							</#if>	
+				        </td>
 				    </tr>
 				</#list>
 			</table>
 		</div>
-		<#include "/common/_paginate.html" />
+		
 		<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/disease/list/" />
 	</body>
 </html>

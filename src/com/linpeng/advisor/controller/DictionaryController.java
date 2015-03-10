@@ -63,7 +63,7 @@ public class DictionaryController extends Controller {
 	 * View dictionary kind and dictionary
 	 */
 	public void view() {
-		int id = getParaToInt("id");
+		int id = getParaToInt(0);
 		DictionaryKind dictionaryKind = DictionaryKind.dao.findById(id);
 		setAttr("dictionarykind", dictionaryKind);
 	}
@@ -153,7 +153,8 @@ public class DictionaryController extends Controller {
 		int kindId = getParaToInt(0);
 		int pageNumber = getParaToInt(1, 1);
 		int pageSize = getParaToInt("pagesize", 10);
-
+		
+		setAttr("kindid", kindId);
 		setAttr("page", Dictionary.dao.paginate(pageNumber, pageSize,
 				"select *", " from dictionary where kind=?", DictionaryKind.dao
 						.findById(kindId).get("kind")));
