@@ -13,6 +13,12 @@
 	              <#list applicationMenus as item>
 	              	  <li><a href="${item.url}">${item.title}</a></li>
 	              </#list>
+	              <#if (session.loginUser)??>
+	              	  <li><a href="/login/logout">登出</a></li>
+	              <#else>
+	              	  <li><a href="/signup">注册</a></li>
+	              	  <li><a href="/login/login">登录</a></li>	
+	              </#if>	  	
 	            </ul>
 	          </div><!--/.nav-collapse -->
 	        </div>
