@@ -37,6 +37,17 @@ public class PrincipleController extends Controller {
 		setAttr("dictionaryIngredients", Dictionary.dao.find(FIND_FOOD_INGRED));
 	}
 
+	public void show() {
+		int diseaseId = getParaToInt(0);
+		Principle principle = Principle.dao.findFirst(
+				"select * from principle where disease_id = ?", diseaseId);
+		if (null == principle) {
+			redirect("/principle/create/" + diseaseId);
+		} else {
+			redirect("/principle/modify/" + principle.getInt("id"));
+		}
+	}
+
 	@Before(Tx.class)
 	public void save() {
 		int diseaseId = getParaToInt("diseaseid");
