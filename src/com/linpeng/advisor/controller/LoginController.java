@@ -38,6 +38,6 @@ public class LoginController extends Controller {
 
 	public void logout() {
 		setAttr("loginMsg", "You have logout success !");
-		render("login");
+		redirect("/login/login");
 	}
 }
