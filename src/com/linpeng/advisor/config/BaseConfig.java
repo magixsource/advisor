@@ -21,6 +21,7 @@ import com.linpeng.advisor.controller.LoginController;
 import com.linpeng.advisor.controller.MenuController;
 import com.linpeng.advisor.controller.PrincipleController;
 import com.linpeng.advisor.controller.SignController;
+import com.linpeng.advisor.interceptor.AuthInterceptor;
 import com.linpeng.advisor.interceptor.MenuInjectIntercepter;
 import com.linpeng.advisor.model.Dictionary;
 import com.linpeng.advisor.model.DictionaryKind;
@@ -90,7 +91,7 @@ public class BaseConfig extends JFinalConfig {
 
 	@Override
 	public void configInterceptor(Interceptors me) {
-		// me.add(new AuthInterceptor());
+		me.add(new AuthInterceptor());
 		me.add(new MenuInjectIntercepter());
 	}
 
