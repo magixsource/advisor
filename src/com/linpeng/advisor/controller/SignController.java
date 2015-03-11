@@ -1,8 +1,10 @@
 package com.linpeng.advisor.controller;
 
 import com.jfinal.aop.Before;
+import com.jfinal.aop.ClearInterceptor;
 import com.jfinal.core.Controller;
 import com.linpeng.advisor.common.EncrypMD5;
+import com.linpeng.advisor.interceptor.MenuInjectIntercepter;
 import com.linpeng.advisor.model.User;
 import com.linpeng.advisor.validator.SignupFormValidator;
 
@@ -12,11 +14,13 @@ import com.linpeng.advisor.validator.SignupFormValidator;
  * @author linpeng
  *
  */
+@ClearInterceptor
 public class SignController extends Controller {
 
 	/**
 	 * Sign up
 	 */
+	@Before(MenuInjectIntercepter.class)
 	public void index() {
 
 	}
