@@ -15,6 +15,7 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.render.ViewType;
 import com.linpeng.advisor.controller.DictionaryController;
 import com.linpeng.advisor.controller.DiseaseController;
+import com.linpeng.advisor.controller.IndexController;
 import com.linpeng.advisor.controller.IngredientsController;
 import com.linpeng.advisor.controller.LoginController;
 import com.linpeng.advisor.controller.MenuController;
@@ -47,6 +48,7 @@ public class BaseConfig extends JFinalConfig {
 	@Override
 	public void configRoute(Routes me) {
 		// Common-Manage module
+		me.add("/", IndexController.class);
 		me.add("/login", LoginController.class, "login");
 		me.add("/signup", SignController.class, "signup");
 		me.add("/menu", MenuController.class, "menu");
