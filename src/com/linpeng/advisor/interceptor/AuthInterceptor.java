@@ -14,8 +14,6 @@ import com.linpeng.advisor.model.User;
  */
 public class AuthInterceptor implements Interceptor {
 
-	public static final String UNIQUE_INTERCEPTOR_ID = "AUTHINTERCEPTER";
-
 	public void intercept(ActionInvocation ai) {
 		Controller controller = ai.getController();
 		User loginUser = controller.getSessionAttr("loginUser");
@@ -38,8 +36,8 @@ public class AuthInterceptor implements Interceptor {
 		if (null == annotation || null == annotation.value()) {
 			return false;
 		}
-		for (String value : annotation.value()) {
-			if (value.equalsIgnoreCase(UNIQUE_INTERCEPTOR_ID)) {
+		for (Class<? extends Interceptor> clz : annotation.value()) {
+			if (this.getClass().equals(clz)) {
 				return true;
 			}
 		}

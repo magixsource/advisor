@@ -10,7 +10,7 @@ import com.linpeng.advisor.interceptor.AuthInterceptor;
  * @author linpeng
  *
  */
-@AopIgnore(AuthInterceptor.UNIQUE_INTERCEPTOR_ID)
+@AopIgnore(AuthInterceptor.class)
 public class IndexController extends Controller {
 
 	public void index() {
