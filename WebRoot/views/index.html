@@ -17,5 +17,45 @@
 		<div class="span12">
 			<h1>Hello ! ${(session.loginUser.username)!'There'}.</h1>
 		</div>
+		<div id="queryForm">
+			${(errorMsg)!}
+			<form name="queryForm" id="queryForm" method="post" action="/advise">
+	            <div class="input-append">
+	              <input class="span2" id="q" name="q" value="${(q)!}" type="text">
+	              <button class="btn" type="submit">Go!</button>
+	            </div>
+	        </form>
+	        <#include "/common/_paginate.html" />
+	        
+		<#if page??>
+			<div class="span12">
+				<table class="table">
+					<tr>
+						<th>Name</th>
+						<th>Kind</th>
+						<th>Origin</th>
+						<th>Edible Part</th>
+						<th>Energy</th>
+						<th>Water</th>
+						<th>Protein</th>
+						<th>Fat</th>
+					</tr>
+					<#list page.list as ingredient>
+					    <tr>
+					        <td>${ingredient.name}</td>
+					        <td>${ingredient.kind}</td>
+					        <td>${ingredient.origin}</td>
+					        <td>${ingredient.edible_part}</td>
+					        <td>${ingredient.energy}</td>
+					        <td>${ingredient.water}</td>
+					        <td>${ingredient.protein}</td>
+					        <td>${ingredient.fat}</td>
+					    </tr>
+					</#list>
+				</table>
+				<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/advise?q=${q}&page=" />
+			</div>
+		</#if>
+		</div>
 	</body>
 </html>
