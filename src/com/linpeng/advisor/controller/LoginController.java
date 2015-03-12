@@ -37,6 +37,7 @@ public class LoginController extends Controller {
 	}
 
 	public void logout() {
+		setSessionAttr("loginUser", null);
 		setAttr("loginMsg", "You have logout success !");
 		redirect("/login/login");
 	}
