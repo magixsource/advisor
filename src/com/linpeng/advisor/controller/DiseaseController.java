@@ -14,7 +14,7 @@ import com.linpeng.advisor.validator.DiseaseFormValidator;
  */
 public class DiseaseController extends Controller {
 
-	public static final String FIND_DISEASE_DEPT = "SELECT * FROM dictionary WHERE kind='LP_ORGCODE'";
+	public static final String FIND_DISEASE_DEPT = "SELECT * FROM dictionary WHERE kind='APP_DICT_DISEASE_DEPT'";
 
 	public void create() {
 		setAttr("dictionaryList", Dictionary.dao.find(FIND_DISEASE_DEPT));
