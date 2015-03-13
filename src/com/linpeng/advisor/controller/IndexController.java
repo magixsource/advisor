@@ -57,58 +57,91 @@ public class IndexController extends Controller {
 	 * @param disease
 	 * @return
 	 */
-	private String conditionBuilder(Disease disease) {
-		StringBuffer sb = new StringBuffer(100);
+	protected String conditionBuilder(Disease disease) {
 		Principle principle = Principle.dao.findFirst(
 				"select * from Principle where disease_id = ?",
 				disease.getInt("id"));
-		String[] roleMoreArray = StringUtils.string2array(principle
-				.getStr("rule_more"));
-		String[] roleLessArray = StringUtils.string2array(principle
-				.getStr("rule_less"));
-		String[] roleNoArray = StringUtils.string2array(principle
-				.getStr("rule_no"));
 
-		// More or Less begin
-		sb.append("(");
-		sb.append("(");
-		for (int i = 0; i < roleMoreArray.length; i++) {
-			if (i > 0) {
-				sb.append("OR ");
-			}
-			sb.append(roleMoreArray[i]);
-			sb.append(">0 ");
+		return sqlConditionGennerate(principle.getStr("rule_more"),
+				principle.getStr("rule_less"), principle.getStr("rule_no"));
+	}
+
+	/**
+	 * SQL-express generate according more\less\no principle
+	 * 
+	 * @param strMore
+	 * @param strLess
+	 * @param strNo
+	 * @return
+	 */
+	protected String sqlConditionGennerate(String strMore, String strLess,
+			String strNo) {
+		StringBuffer sb = new StringBuffer(100);
+
+		String[] ruleMoreArray = null != strMore ? StringUtils
+				.string2array(strMore) : null;
+		String[] ruleLessArray = null != strLess ? StringUtils
+				.string2array(strLess) : null;
+		String[] ruleNoArray = null != strNo ? StringUtils.string2array(strNo)
+				: null;
+
+		if (null != ruleMoreArray && null != ruleLessArray
+				&& null != ruleNoArray) {
+			// More or Less begin
+			sb.append("(");
 		}
-		sb.append(")");
 
-		// 'More' and 'Less' relation
-		sb.append(" OR ");
-
-		sb.append("(");
-		for (int i = 0; i < roleLessArray.length; i++) {
-			if (i > 0) {
-				sb.append("AND ");
+		if (null != ruleMoreArray) {
+			sb.append("(");
+			for (int i = 0; i < ruleMoreArray.length; i++) {
+				if (i > 0) {
+					sb.append(" OR ");
+				}
+				sb.append(ruleMoreArray[i]);
+				sb.append(">0");
 			}
-			sb.append(roleLessArray[i]);
-			sb.append("<=" + getLessGramByField(roleLessArray[i]) + " ");
+			sb.append(")");
 		}
-		sb.append(")");
 
-		// More or Less end
-		sb.append(")");
-
-		// 'More-Less' and 'No' relation
-		sb.append(" AND ");
-
-		sb.append("(");
-		for (int i = 0; i < roleNoArray.length; i++) {
-			if (i > 0) {
-				sb.append("AND ");
+		if (null != ruleLessArray) {
+			// 'More' and 'Less' relation
+			if (null != ruleMoreArray) {
+				sb.append(" OR ");
 			}
-			sb.append(roleNoArray[i]);
-			sb.append("= 0 ");
+
+			sb.append("(");
+			for (int i = 0; i < ruleLessArray.length; i++) {
+				if (i > 0) {
+					sb.append(" AND ");
+				}
+				sb.append(ruleLessArray[i]);
+				sb.append("<=" + getLessGramByField(ruleLessArray[i]));
+			}
+			sb.append(")");
 		}
-		sb.append(")");
+
+		if (null != ruleMoreArray && null != ruleLessArray
+				&& null != ruleNoArray) {
+			// More or Less end
+			sb.append(")");
+		}
+
+		if (null != ruleNoArray) {
+			// 'More-Less' and 'No' relation
+			if (null != ruleMoreArray || null != ruleLessArray) {
+				sb.append(" AND ");
+			}
+
+			sb.append("(");
+			for (int i = 0; i < ruleNoArray.length; i++) {
+				if (i > 0) {
+					sb.append(" AND ");
+				}
+				sb.append(ruleNoArray[i]);
+				sb.append("=0");
+			}
+			sb.append(")");
+		}
 
 		return sb.toString();
 	}
