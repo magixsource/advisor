@@ -155,6 +155,7 @@ public class DictionaryController extends Controller {
 		int pageSize = getParaToInt("pagesize", 10);
 
 		setAttr("kindid", kindId);
+		setAttr("dictionaryKindList",DictionaryKind.dao.find("select * from dictionary_kind"));
 		setAttr("page",
 				Dictionary.dao
 						.paginate(

@@ -14,6 +14,7 @@
 		<#include "/common/_auth.html" />
 		<#include "/common/_menu.html" />
 		<#include "/common/_paginate.html" />
+		
 		<@menu/>
 		<div class="span12">
 			<@auth role="admin" />
@@ -32,7 +33,11 @@
 				</tr>
 				<#list page.list as item>
 				    <tr>
-				        <td>${(item.kind)!}</td>
+				        <td>
+				        	<#list dictionaryKindList as _item>
+								<#if item.kind == _item.kind>${_item.title}</#if>
+							</#list>
+				        </td>
 				        <td>${(item.title)!}</td>
 				        <td>${(item.code)!}</td>
 				        <td>
