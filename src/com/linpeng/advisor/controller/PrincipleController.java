@@ -26,7 +26,12 @@ public class PrincipleController extends Controller {
 	public void modify() {
 		// get id
 		int id = getParaToInt(0);
-		setAttr("principle", Principle.dao.findById(id));
+		Principle principle = Principle.dao.findById(id);
+		
+		int diseaseId = principle.getInt("disease_id");
+		setAttr("diseaseid", diseaseId);
+		
+		setAttr("principle", principle);
 		setAttr("dictionaryIngredients", Dictionary.dao.find(FIND_FOOD_INGRED));
 		render("create.html");
 	}
