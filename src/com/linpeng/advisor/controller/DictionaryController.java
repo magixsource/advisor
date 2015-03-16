@@ -28,7 +28,7 @@ public class DictionaryController extends Controller {
 	 * Modify dictionary kind
 	 */
 	public void modify() {
-		int id = getParaToInt("id");
+		int id = getParaToInt(0);
 		DictionaryKind dictionaryKind = DictionaryKind.dao.findById(id);
 		setAttr("dictionarykind", dictionaryKind);
 		render("create.html");
