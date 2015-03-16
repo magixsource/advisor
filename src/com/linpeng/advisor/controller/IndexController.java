@@ -6,6 +6,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.linpeng.advisor.annotation.AopIgnore;
 import com.linpeng.advisor.common.StringUtils;
+import com.linpeng.advisor.config.BaseConfig;
 import com.linpeng.advisor.interceptor.AuthInterceptor;
 import com.linpeng.advisor.model.Disease;
 import com.linpeng.advisor.model.Ingredient;
@@ -17,15 +18,14 @@ import com.linpeng.advisor.model.Principle;
  * @author linpeng
  *
  */
-// FIXME Test-case when rule_more or rule_less or rule_no is empty
-// FIXME The different value should not hard-code in method getLessGramByField
+// FIXME Test-case when rule_more or rule_less or rule_no is empty (#Fixed)
+// FIXME The different value should not hard-code in method getLessGramByField (#Fixed)
 // FIXME More smart and good algorithm should conditionBuilder method be
 // FIXME Query result order problem
 @AopIgnore(AuthInterceptor.class)
 public class IndexController extends Controller {
 
 	public void index() {
-
 	}
 
 	/**
@@ -155,13 +155,14 @@ public class IndexController extends Controller {
 	private String getLessGramByField(String fieldName) {
 		if (Arrays.asList(Ingredient.INGREDIENT_CALORIE_FIELDS).contains(
 				fieldName)) {
-			return "200";
+			return BaseConfig.appProperties.get("advise.calorie.lt").toString();
 		} else if (Arrays.asList(Ingredient.INGREDIENT_GRAM_FIELDS).contains(
 				fieldName)) {
-			return "5";
+			return BaseConfig.appProperties.get("advise.gram.lt").toString();
 		} else if (Arrays.asList(Ingredient.INGREDIENT_MILLIGRAM_FIELDS)
 				.contains(fieldName)) {
-			return "1.5";
+			return BaseConfig.appProperties.get("advise.milligram.lt")
+					.toString();
 		}
 		throw new IllegalArgumentException(fieldName + " undefined !");
 	}

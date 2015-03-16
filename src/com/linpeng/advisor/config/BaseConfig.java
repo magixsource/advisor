@@ -2,6 +2,8 @@ package com.linpeng.advisor.config;
 
 import java.util.Properties;
 
+import org.eclipse.jetty.deploy.AppProvider;
+
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -39,6 +41,8 @@ import com.linpeng.advisor.model.User;
  *
  */
 public class BaseConfig extends JFinalConfig {
+
+	public static Properties appProperties;
 
 	@Override
 	public void configConstant(Constants me) {
@@ -88,6 +92,11 @@ public class BaseConfig extends JFinalConfig {
 		arp.addMapping("dictionary", Dictionary.class);
 		arp.addMapping("menu", Menu.class);
 		arp.addMapping("principle", Principle.class);
+
+		// load app properties
+		if (null == appProperties) {
+			appProperties = loadPropertyFile("app.properties");
+		}
 	}
 
 	@Override
