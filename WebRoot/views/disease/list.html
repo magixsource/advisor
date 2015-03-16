@@ -14,6 +14,7 @@
 		<#include "/common/_menu.html" />
 		<#include "/common/_auth.html" />
 		<#include "/common/_paginate.html" />
+		<#include "/common/_translate.html" />
 		
 		<@menu/>
 		
@@ -33,7 +34,7 @@
 				<#list page.list as disease>
 				    <tr>
 				        <td>${disease.name}</td>
-				        <td>${disease.dept}</td>
+				        <td><@translate list = dictionaryList key = disease.dept /></td>
 				        <td>
 				        	<a class="btn btn-info" href="/disease/view/${disease.id}">Detail</a>
 				        	<#if authResult>
