@@ -1,0 +1,7 @@
+<#macro translate list key>
+	<#if (list == null) || (key == null)><#return></#if>
+
+	<#list list as item>
+		<#if key == item.code>${item.title}</#if>
+	</#list>		
+</#macro>	
