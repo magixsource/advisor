@@ -2,8 +2,6 @@ package com.linpeng.advisor.config;
 
 import java.util.Properties;
 
-import org.eclipse.jetty.deploy.AppProvider;
-
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
