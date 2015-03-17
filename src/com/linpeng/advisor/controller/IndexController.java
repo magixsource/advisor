@@ -19,7 +19,8 @@ import com.linpeng.advisor.model.Principle;
  *
  */
 // FIXME Test-case when rule_more or rule_less or rule_no is empty (#Fixed)
-// FIXME The different value should not hard-code in method getLessGramByField (#Fixed)
+// FIXME The different value should not hard-code in method getLessGramByField
+// (#Fixed)
 // FIXME More smart and good algorithm should conditionBuilder method be
 // FIXME Query result order problem
 @AopIgnore(AuthInterceptor.class)
@@ -141,6 +142,31 @@ public class IndexController extends Controller {
 				sb.append("=0");
 			}
 			sb.append(")");
+		}
+
+		// order append
+		if (null != ruleMoreArray || null != ruleLessArray) {
+			sb.append(" order by ");
+		}
+		if (null != ruleMoreArray) {
+			for (int i = 0; i < ruleMoreArray.length; i++) {
+				if (i > 0) {
+					sb.append(",");
+				}
+				sb.append(ruleMoreArray[i]);
+			}
+		}
+		if (null != ruleLessArray) {
+			// 补','号
+			if (null != ruleMoreArray) {
+				sb.append(",");
+			}
+			for (int i = 0; i < ruleLessArray.length; i++) {
+				if (i > 0) {
+					sb.append(",");
+				}
+				sb.append(ruleLessArray[i]);
+			}
 		}
 
 		return sb.toString();
