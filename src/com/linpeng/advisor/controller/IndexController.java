@@ -22,7 +22,7 @@ import com.linpeng.advisor.model.Principle;
 // FIXME The different value should not hard-code in method getLessGramByField
 // (#Fixed)
 // FIXME More smart and good algorithm should conditionBuilder method be
-// FIXME Query result order problem
+// FIXME Query result order problem(#Fixed)
 @AopIgnore(AuthInterceptor.class)
 public class IndexController extends Controller {
 
@@ -107,7 +107,7 @@ public class IndexController extends Controller {
 		if (null != ruleLessArray) {
 			// 'More' and 'Less' relation
 			if (null != ruleMoreArray) {
-				sb.append(" OR ");
+				sb.append(" AND ");
 			}
 
 			sb.append("(");
@@ -116,7 +116,7 @@ public class IndexController extends Controller {
 					sb.append(" AND ");
 				}
 				sb.append(ruleLessArray[i]);
-				sb.append("<=" + getLessGramByField(ruleLessArray[i]));
+				sb.append("<=" + getLessValueByField(ruleLessArray[i]));
 			}
 			sb.append(")");
 		}
@@ -139,7 +139,7 @@ public class IndexController extends Controller {
 					sb.append(" AND ");
 				}
 				sb.append(ruleNoArray[i]);
-				sb.append("=0");
+				sb.append("<=" + getNoValueByField(ruleNoArray[i]));
 			}
 			sb.append(")");
 		}
@@ -155,6 +155,7 @@ public class IndexController extends Controller {
 				}
 				sb.append(ruleMoreArray[i]);
 			}
+			sb.append(" DESC");
 		}
 		if (null != ruleLessArray) {
 			// 补','号
@@ -167,9 +168,32 @@ public class IndexController extends Controller {
 				}
 				sb.append(ruleLessArray[i]);
 			}
+			sb.append(" ASC");
 		}
 
 		return sb.toString();
+	}
+
+	/**
+	 * How much that is no
+	 * 
+	 * @param string
+	 * @return
+	 */
+	private String getNoValueByField(String fieldName) {
+		if (Arrays.asList(Ingredient.INGREDIENT_CALORIE_FIELDS).contains(
+				fieldName)) {
+			return BaseConfig.appProperties.get("advise.calorie.nolt")
+					.toString();
+		} else if (Arrays.asList(Ingredient.INGREDIENT_GRAM_FIELDS).contains(
+				fieldName)) {
+			return BaseConfig.appProperties.get("advise.gram.nolt").toString();
+		} else if (Arrays.asList(Ingredient.INGREDIENT_MILLIGRAM_FIELDS)
+				.contains(fieldName)) {
+			return BaseConfig.appProperties.get("advise.milligram.nolt")
+					.toString();
+		}
+		throw new IllegalArgumentException(fieldName + " undefined !");
 	}
 
 	/**
@@ -178,7 +202,7 @@ public class IndexController extends Controller {
 	 * @param string
 	 * @return
 	 */
-	private String getLessGramByField(String fieldName) {
+	private String getLessValueByField(String fieldName) {
 		if (Arrays.asList(Ingredient.INGREDIENT_CALORIE_FIELDS).contains(
 				fieldName)) {
 			return BaseConfig.appProperties.get("advise.calorie.lt").toString();
