@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2015-03-13 08:53:12
+Date: 2015-03-17 10:03:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,3 +31,5 @@ CREATE TABLE `dictionary_kind` (
 -- Records of dictionary_kind
 -- ----------------------------
 INSERT INTO `dictionary_kind` VALUES ('2', 'APP_DICT_INGRED', '食品成分', null);
+INSERT INTO `dictionary_kind` VALUES ('3', 'APP_DICT_DISEASE_DEPT', '疾病分类', null);
+INSERT INTO `dictionary_kind` VALUES ('4', 'APP_DICT_FOOD_KIND', '食品分类', null);

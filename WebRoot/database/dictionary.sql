@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2015-03-13 08:53:06
+Date: 2015-03-17 10:02:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -56,3 +56,33 @@ INSERT INTO `dictionary` VALUES ('26', 'APP_DICT_INGRED', 'phosphorus', '磷');
 INSERT INTO `dictionary` VALUES ('27', 'APP_DICT_INGRED', 'potassium', '钾');
 INSERT INTO `dictionary` VALUES ('28', 'APP_DICT_INGRED', 'magnesium', '镁');
 INSERT INTO `dictionary` VALUES ('29', 'APP_DICT_INGRED', 'zinc', '锌');
+INSERT INTO `dictionary` VALUES ('30', 'APP_DICT_DISEASE_DEPT', '000001', '心脑血管系统');
+INSERT INTO `dictionary` VALUES ('31', 'APP_DICT_DISEASE_DEPT', '000002', '消化系统疾病');
+INSERT INTO `dictionary` VALUES ('32', 'APP_DICT_DISEASE_DEPT', '000003', '呼吸系统疾病');
+INSERT INTO `dictionary` VALUES ('33', 'APP_DICT_DISEASE_DEPT', '000004', '眼科');
+INSERT INTO `dictionary` VALUES ('34', 'APP_DICT_DISEASE_DEPT', '000005', '骨关节系统');
+INSERT INTO `dictionary` VALUES ('35', 'APP_DICT_DISEASE_DEPT', '000006', '泌尿系统疾病');
+INSERT INTO `dictionary` VALUES ('36', 'APP_DICT_DISEASE_DEPT', '000007', '肝胆系统疾病');
+INSERT INTO `dictionary` VALUES ('37', 'APP_DICT_DISEASE_DEPT', '000008', '内分泌系统疾病');
+INSERT INTO `dictionary` VALUES ('38', 'APP_DICT_DISEASE_DEPT', '000009', '妇科疾病');
+INSERT INTO `dictionary` VALUES ('39', 'APP_DICT_DISEASE_DEPT', '000010', '其他疾病');
+INSERT INTO `dictionary` VALUES ('40', 'APP_DICT_FOOD_KIND', '0001', '谷类及制品');
+INSERT INTO `dictionary` VALUES ('41', 'APP_DICT_FOOD_KIND', '0002', '薯类、淀粉及制品');
+INSERT INTO `dictionary` VALUES ('42', 'APP_DICT_FOOD_KIND', '0003', '干豆类及制品');
+INSERT INTO `dictionary` VALUES ('43', 'APP_DICT_FOOD_KIND', '0004', '蔬菜类及制品');
+INSERT INTO `dictionary` VALUES ('44', 'APP_DICT_FOOD_KIND', '0005', '菌藻类');
+INSERT INTO `dictionary` VALUES ('45', 'APP_DICT_FOOD_KIND', '0006', '水果类及制品');
+INSERT INTO `dictionary` VALUES ('46', 'APP_DICT_FOOD_KIND', '0007', '坚果、种子类');
+INSERT INTO `dictionary` VALUES ('47', 'APP_DICT_FOOD_KIND', '0008', '畜肉类及制品');
+INSERT INTO `dictionary` VALUES ('48', 'APP_DICT_FOOD_KIND', '0009', '禽肉类及制品');
+INSERT INTO `dictionary` VALUES ('49', 'APP_DICT_FOOD_KIND', '0010', '乳类及制品');
+INSERT INTO `dictionary` VALUES ('50', 'APP_DICT_FOOD_KIND', '0011', '蛋类及制品');
+INSERT INTO `dictionary` VALUES ('51', 'APP_DICT_FOOD_KIND', '0012', '鱼虾蟹贝类');
+INSERT INTO `dictionary` VALUES ('52', 'APP_DICT_FOOD_KIND', '0013', '婴幼儿食品');
+INSERT INTO `dictionary` VALUES ('53', 'APP_DICT_FOOD_KIND', '0014', '小吃、甜饼');
+INSERT INTO `dictionary` VALUES ('54', 'APP_DICT_FOOD_KIND', '0015', '速食食品');
+INSERT INTO `dictionary` VALUES ('55', 'APP_DICT_FOOD_KIND', '0016', '饮料类');
+INSERT INTO `dictionary` VALUES ('56', 'APP_DICT_FOOD_KIND', '0017', '含酒精饮料');
+INSERT INTO `dictionary` VALUES ('57', 'APP_DICT_FOOD_KIND', '0018', '糖、蜜饯类');
+INSERT INTO `dictionary` VALUES ('58', 'APP_DICT_FOOD_KIND', '0019', '油脂类');
+INSERT INTO `dictionary` VALUES ('59', 'APP_DICT_FOOD_KIND', '0020', '调味品类');
