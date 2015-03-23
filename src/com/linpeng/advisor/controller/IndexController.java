@@ -1,6 +1,8 @@
 package com.linpeng.advisor.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -26,6 +28,9 @@ import com.linpeng.advisor.model.Principle;
 @AopIgnore(AuthInterceptor.class)
 public class IndexController extends Controller {
 
+	public static final String NOT_FOUND_SUFFIX = " Not Found !";
+	public static final String MSG_INPUT_DISEASE_NAME = "Input disease name plz !";
+
 	public void index() {
 	}
 
@@ -37,23 +42,54 @@ public class IndexController extends Controller {
 		int pageNumber = getParaToInt("page", 1);
 		int pageSize = getParaToInt("pagesize", 10);
 		if (null == diseaseName || diseaseName.trim().length() == 0) {
-			setAttr("errorMsg", "Input disease name plz !");
+			setAttr("errorMsg", MSG_INPUT_DISEASE_NAME);
 		} else {
-			Disease disease = Disease.dao.findFirst(
-					"select * from disease where name=?", diseaseName);
+			Disease disease = findDiseaseByName(diseaseName);
 			if (null == disease) {
-				setAttr("errorMsg", diseaseName + " Not Found !");
+				setAttr("errorMsg", diseaseName + NOT_FOUND_SUFFIX);
 			} else {
 				// result
-				Page<Ingredient> page = Ingredient.dao.paginate(pageNumber,
-						pageSize, "select t.*", " from ingredients t where "
-								+ conditionBuilder(disease));
+				Page<Ingredient> page = paginateIngredient(pageNumber,
+						pageSize, disease);
 				setAttr("page", page);
 				setAttr("q", diseaseName);
 			}
 
 		}
 		render("index.html");
+	}
+
+	private Disease findDiseaseByName(String diseaseName) {
+		return Disease.dao.findFirst("select * from disease where name=?",
+				diseaseName);
+	}
+
+	public void adviseJson() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String diseaseName = getPara("q");
+		int pageNumber = getParaToInt("page", 1);
+		int pageSize = getParaToInt("pagesize", 10);
+		if (null == diseaseName || diseaseName.trim().length() == 0) {
+			map.put("errormsg", MSG_INPUT_DISEASE_NAME);
+		} else {
+			Disease disease = findDiseaseByName(diseaseName);
+			if (null == disease) {
+				map.put("errormsg", diseaseName + NOT_FOUND_SUFFIX);
+			} else {
+				// result
+				Page<Ingredient> page = paginateIngredient(pageNumber,
+						pageSize, disease);
+				map.put("page", page);
+				map.put("q", diseaseName);
+			}
+		}
+		renderJson(map);
+	}
+
+	private Page<Ingredient> paginateIngredient(int pageNumber, int pageSize,
+			Disease disease) {
+		return Ingredient.dao.paginate(pageNumber, pageSize, "select t.*",
+				" from ingredients t where " + conditionBuilder(disease));
 	}
 
 	/**
