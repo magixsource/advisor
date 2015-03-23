@@ -17,7 +17,6 @@ public class GlobalInterceptor implements Interceptor {
 		// put appName
 		String appName = BaseConfig.appProperties.getProperty("app.name");
 		ai.getController().setAttr("appName", appName);
-		System.out.println("======"+appName);
 		ai.invoke();
 	}
 
