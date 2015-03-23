@@ -17,8 +17,15 @@
 		<div class="span12">
 			<h1>Hello ! ${(session.loginUser.username)!'There'}.</h1>
 		</div>
-		<div id="queryForm">
-			${(errorMsg)!}
+		<div id="queryForm" class="span12">
+			
+			<#if errorMsg??>
+			<div class="alert">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong>Warning!</strong> ${errorMsg}
+			</div>
+			</#if>
+			
 			<form name="queryForm" id="queryForm" method="post" action="/advise">
 	            <div class="input-append">
 	              <input class="span2" id="q" name="q" value="${(q)!}" type="text">

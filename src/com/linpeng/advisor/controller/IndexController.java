@@ -36,18 +36,22 @@ public class IndexController extends Controller {
 		String diseaseName = getPara("q");
 		int pageNumber = getParaToInt("page", 1);
 		int pageSize = getParaToInt("pagesize", 10);
-
-		Disease disease = Disease.dao.findFirst(
-				"select * from disease where name=?", diseaseName);
-		if (null == disease) {
-			setAttr("errorMsg", diseaseName + " Not Found !");
+		if (null == diseaseName || diseaseName.trim().length() == 0) {
+			setAttr("errorMsg", "Input disease name plz !");
 		} else {
-			// result
-			Page<Ingredient> page = Ingredient.dao.paginate(pageNumber,
-					pageSize, "select t.*", " from ingredients t where "
-							+ conditionBuilder(disease));
-			setAttr("page", page);
-			setAttr("q", diseaseName);
+			Disease disease = Disease.dao.findFirst(
+					"select * from disease where name=?", diseaseName);
+			if (null == disease) {
+				setAttr("errorMsg", diseaseName + " Not Found !");
+			} else {
+				// result
+				Page<Ingredient> page = Ingredient.dao.paginate(pageNumber,
+						pageSize, "select t.*", " from ingredients t where "
+								+ conditionBuilder(disease));
+				setAttr("page", page);
+				setAttr("q", diseaseName);
+			}
+
 		}
 		render("index.html");
 	}
@@ -158,7 +162,7 @@ public class IndexController extends Controller {
 			sb.append(" DESC");
 		}
 		if (null != ruleLessArray) {
-			// 补','号
+			// 琛�,'鍙�
 			if (null != ruleMoreArray) {
 				sb.append(",");
 			}
