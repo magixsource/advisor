@@ -1,20 +1,13 @@
-<html>
-	<head>
-		<meta charset="utf-8">
-	    <title>${appName!'Application'}</title>
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <meta name="description" content="">
-	    <meta name="author" content="">
-	    
-	    <link href="/static/css/bootstrap.css" rel="stylesheet">
-   		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
-   		<link href="/static/css/style.css" rel="stylesheet">
-	</head>
-	<body>
-		<#include "/common/_auth.html" />
-		<#include "/common/_menu.html" />
-		<#include "/common/_paginate.html" />
-		
+<#include "/common/_header.html" />
+<#include "/common/_menu.html" />
+<#include "/common/_paginate.html" />
+<#include "/common/_auth.html" />
+<#include "/common/_footer.html" />
+
+<@header>
+	<link href="/static/css/style.css" rel="stylesheet">
+</@header>
+
 		<@menu/>
 		<div class="span12">
 			<@auth role="admin" />
@@ -51,5 +44,4 @@
 		</div>
 		
 		<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/dictionary/all/${kindid}?page=" />
-	</body>
-</html>
+<@footer/>
