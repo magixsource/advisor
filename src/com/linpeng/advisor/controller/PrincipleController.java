@@ -27,10 +27,10 @@ public class PrincipleController extends Controller {
 		// get id
 		int id = getParaToInt(0);
 		Principle principle = Principle.dao.findById(id);
-		
+
 		int diseaseId = principle.getInt("disease_id");
 		setAttr("diseaseid", diseaseId);
-		
+
 		setAttr("principle", principle);
 		setAttr("dictionaryIngredients", Dictionary.dao.find(FIND_FOOD_INGRED));
 		render("create.html");
@@ -73,7 +73,10 @@ public class PrincipleController extends Controller {
 					.set("rule_no", StringUtils.array2string(ruleNo)).update();
 		}
 
-		redirect("/principle/index");
+		Principle principle = Principle.dao.findFirst(
+				"select * from principle where disease_id = ?", diseaseId);
+
+		redirect("/principle/modify/" + principle.getInt("id"));
 	}
 
 }
