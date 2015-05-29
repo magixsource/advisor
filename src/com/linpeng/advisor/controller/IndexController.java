@@ -2,6 +2,7 @@ package com.linpeng.advisor.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.jfinal.core.Controller;
@@ -10,6 +11,7 @@ import com.linpeng.advisor.annotation.AopIgnore;
 import com.linpeng.advisor.common.StringUtils;
 import com.linpeng.advisor.config.BaseConfig;
 import com.linpeng.advisor.interceptor.AuthInterceptor;
+import com.linpeng.advisor.model.Dictionary;
 import com.linpeng.advisor.model.Disease;
 import com.linpeng.advisor.model.Ingredient;
 import com.linpeng.advisor.model.Principle;
@@ -48,15 +50,61 @@ public class IndexController extends Controller {
 			if (null == disease) {
 				setAttr("errorMsg", diseaseName + NOT_FOUND_SUFFIX);
 			} else {
+				Principle principle = findPrincipleByDiseaseId(disease);
 				// result
 				Page<Ingredient> page = paginateIngredient(pageNumber,
-						pageSize, disease);
+						pageSize, disease, principle);
+				String tips = generateTipsByPrinciple(principle);
 				setAttr("page", page);
 				setAttr("q", diseaseName);
+				setAttr("tips", tips);
 			}
 
 		}
 		render("index.html");
+	}
+
+	/**
+	 * Generate tips
+	 * 
+	 * @param principle
+	 * @return
+	 */
+	private String generateTipsByPrinciple(Principle principle) {
+
+		String rule_more = principle.getStr("rule_more");
+		String rule_less = principle.getStr("rule_less");
+		String rule_no = principle.getStr("rule_no");
+		String more = "多吃-%s";
+		String less = "少吃-%s";
+		String no = "不吃-%s";
+
+		List<Dictionary> list = Dictionary.dao
+				.find("select t.code,t.title from dictionary t where t.kind='APP_DICT_INGRED'");
+
+		Map<String, String> map = new HashMap<String, String>();
+		for (Dictionary dic : list) {
+			if (dic == null) {
+				continue;
+			}
+			map.put(dic.getStr("code"), dic.getStr("title"));
+		}
+
+		String moreTip = rule_more;
+		for (String s : rule_more.split(",")) {
+			moreTip = moreTip.replace(s, map.get(s));
+		}
+		String lessTip = rule_less;
+		for (String s : rule_less.split(",")) {
+			lessTip = lessTip.replace(s, map.get(s));
+		}
+		String noTip = rule_no;
+		for (String s : rule_no.split(",")) {
+			noTip = noTip.replace(s, map.get(s));
+		}
+
+		return "小贴士：建议"+String.format(more, moreTip) + " "
+				+ String.format(less, lessTip) + " " + String.format(no, noTip);
 	}
 
 	private Disease findDiseaseByName(String diseaseName) {
@@ -76,9 +124,10 @@ public class IndexController extends Controller {
 			if (null == disease) {
 				map.put("errormsg", diseaseName + NOT_FOUND_SUFFIX);
 			} else {
+				Principle principle = findPrincipleByDiseaseId(disease);
 				// result
 				Page<Ingredient> page = paginateIngredient(pageNumber,
-						pageSize, disease);
+						pageSize, disease, principle);
 				map.put("page", page);
 				map.put("q", diseaseName);
 			}
@@ -86,10 +135,20 @@ public class IndexController extends Controller {
 		renderJson(map);
 	}
 
+	private Principle findPrincipleByDiseaseId(Disease disease) {
+		return Principle.dao.findFirst(
+				"select * from Principle where disease_id = ?",
+				disease.getInt("id"));
+	}
+
 	private Page<Ingredient> paginateIngredient(int pageNumber, int pageSize,
-			Disease disease) {
-		return Ingredient.dao.paginate(pageNumber, pageSize, "select t.*",
-				" from ingredients t where " + conditionBuilder(disease));
+			Disease disease, Principle principle) {
+		return Ingredient.dao.paginate(
+				pageNumber,
+				pageSize,
+				"select t.*",
+				" from ingredients t where "
+						+ conditionBuilder(disease, principle));
 	}
 
 	/**
@@ -98,11 +157,7 @@ public class IndexController extends Controller {
 	 * @param disease
 	 * @return
 	 */
-	protected String conditionBuilder(Disease disease) {
-		Principle principle = Principle.dao.findFirst(
-				"select * from Principle where disease_id = ?",
-				disease.getInt("id"));
-
+	protected String conditionBuilder(Disease disease, Principle principle) {
 		return sqlConditionGennerate(principle.getStr("rule_more"),
 				principle.getStr("rule_less"), principle.getStr("rule_no"));
 	}
