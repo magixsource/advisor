@@ -1,0 +1,71 @@
+<#include "/common/_header.html" />
+<#include "/common/_menu.html" />
+<#include "/common/_footer.html" />
+<@header>
+	<link href="/static/css/select2.css" rel="stylesheet">
+   	<link href="/static/css/style.css" rel="stylesheet">
+</@header>
+
+		<@menu/>
+		
+		<div class="span12">
+			<form class="form-horizontal" id="viewForm" name="viewForm" action="" method="post">
+				<div class="control-group">
+					<label class="control-label" for="name">名称</label>
+					<div class="controls">
+						<input type="text" name="name" id="name" value="${(ingredient.name)!}" readonly="readonly" />
+						<span class="help-inline">${nameMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="origin">产地</label>
+					<div class="controls">
+						<input type="text" name="origin" id="origin" value="${(ingredient.origin)!}" readonly="readonly" />
+						<span class="help-inline">${originMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="edible_part">可食部分</label>
+					<div class="controls">
+						<input type="text" name="edible_part" id="edible_part" value="${(ingredient.edible_part)!}" readonly="readonly" />
+						<span class="help-inline">${edible_partMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="energy">能量</label>
+					<div class="controls">
+						<input type="text" name="energy" id="energy" value="${(ingredient.energy)!}" readonly="readonly" />
+						<span class="help-inline">${energyMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="water">水分</label>
+					<div class="controls">
+						<input type="text" name="water" id="water" value="${(ingredient.water)!}" readonly="readonly" />
+						<span class="help-inline">${waterMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="protein">蛋白质</label>
+					<div class="controls">
+						<input type="text" name="protein" id="protein" value="${(ingredient.protein)!}" readonly="readonly" />
+						<span class="help-inline">${proteinMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="fat">脂肪</label>
+					<div class="controls">
+						<input type="text" name="fat" id="fat" value="${(ingredient.fat)!}" readonly="readonly" />
+						<span class="help-inline">${fatMsg!''}</span>
+					</div>
+				</div>
+				
+			</form>
+		</div>
+<@footer>
+	<script src="/static/js/jquery.js"></script>
+	<script src="/static/js/select2.full.js"></script>
+	<script type="text/javascript">
+	  $('select').select2();
+	</script>
+</@footer>
