@@ -1,0 +1,59 @@
+<#include "/common/_header.html" />
+<#include "/common/_menu.html" />
+<#include "/common/_footer.html" />
+<@header>
+	<link href="/static/css/select2.css" rel="stylesheet">
+   	<link href="/static/css/style.css" rel="stylesheet">
+</@header>
+<@menu/>
+
+<div class="span12">
+	<form class="form-horizontal" id="updateForm" name="updateForm" action="/user/save" method="post">
+		<input type="hidden" id="id" name="id" value="${(user.id)!}" />
+		
+		<div class="control-group">
+			<label class="control-label" for="rule_more">用户名</label>
+			<div class="controls">
+				<input type="text" name="username" readonly value="${(user.username)!}" />
+				<span class="help-inline">${rule_moreMsg!''}</span>
+			</div>
+			
+			<br />
+			
+			<div class="control-group">
+				<label class="control-label" for="disease">疾患</label>
+				<div class="controls">
+					<select class="" multiple="multiple" id="disease" name="disease" value="${(user.disease)!}">
+						  <#assign arr=((user.disease)?split(","))! />
+						  <#list diseases as item>
+						  	<option 
+						  		<#list arr as str>
+						  			<#if str == item.id.toString()>
+						  				selected="selected"
+						  			</#if>
+						  		</#list>
+						  		value="${item.id}">
+						  		${item.name}
+						  	</option>
+						  </#list>
+					</select>
+					<span class="help-inline">${rule_moreMsg!''}</span>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" class="btn btn-primary" value="Save" />
+				</div>
+			</div>
+		</div>
+	</form>	
+</div>
+
+<@footer>
+	<script src="/static/js/jquery.js"></script>
+	<script src="/static/js/select2.full.js"></script>
+	<script type="text/javascript">
+	  $('select').select2();
+	</script>
+</@footer>
