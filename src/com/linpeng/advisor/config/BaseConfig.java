@@ -14,22 +14,29 @@ import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.render.ViewType;
+import com.linpeng.advisor.controller.AdvisorController;
 import com.linpeng.advisor.controller.DictionaryController;
 import com.linpeng.advisor.controller.DiseaseController;
 import com.linpeng.advisor.controller.IndexController;
 import com.linpeng.advisor.controller.IngredientsController;
 import com.linpeng.advisor.controller.LoginController;
 import com.linpeng.advisor.controller.MenuController;
+import com.linpeng.advisor.controller.PartyController;
+import com.linpeng.advisor.controller.PersonController;
 import com.linpeng.advisor.controller.PrincipleController;
 import com.linpeng.advisor.controller.SignController;
+import com.linpeng.advisor.controller.UserController;
 import com.linpeng.advisor.interceptor.AuthInterceptor;
 import com.linpeng.advisor.interceptor.GlobalInterceptor;
 import com.linpeng.advisor.interceptor.MenuInjectIntercepter;
 import com.linpeng.advisor.model.Dictionary;
 import com.linpeng.advisor.model.DictionaryKind;
+import com.linpeng.advisor.model.Diners;
 import com.linpeng.advisor.model.Disease;
 import com.linpeng.advisor.model.Ingredient;
 import com.linpeng.advisor.model.Menu;
+import com.linpeng.advisor.model.Party;
+import com.linpeng.advisor.model.Person;
 import com.linpeng.advisor.model.Principle;
 import com.linpeng.advisor.model.User;
 
@@ -58,8 +65,13 @@ public class BaseConfig extends JFinalConfig {
 		me.add("/signup", SignController.class, "signup");
 		me.add("/menu", MenuController.class, "menu");
 
-		// User Module
+		// Powerful advisor
+		me.add("/advisor", AdvisorController.class, "advisor");
 
+		// User Module
+		me.add("/user", UserController.class, "user");
+		me.add("/person", PersonController.class, "person");
+		me.add("/party", PartyController.class, "party");
 		// Food Module
 		me.add("/ingredient", IngredientsController.class, "ingredient");
 
@@ -91,6 +103,9 @@ public class BaseConfig extends JFinalConfig {
 		arp.addMapping("dictionary", Dictionary.class);
 		arp.addMapping("menu", Menu.class);
 		arp.addMapping("principle", Principle.class);
+		arp.addMapping("person", Person.class);
+		arp.addMapping("party", Party.class);
+		arp.addMapping("diners", Diners.class);
 
 		// load app properties
 		if (null == appProperties) {
