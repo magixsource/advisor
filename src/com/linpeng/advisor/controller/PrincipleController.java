@@ -60,6 +60,15 @@ public class PrincipleController extends Controller {
 		String[] ruleMore = getParaValues("rule_more");
 		String[] ruleLess = getParaValues("rule_less");
 		String[] ruleNo = getParaValues("rule_no");
+		if (ruleMore == null) {
+			ruleMore = new String[] { "" };
+		}
+		if (ruleLess == null) {
+			ruleLess = new String[] { "" };
+		}
+		if (ruleNo == null) {
+			ruleNo = new String[] { "" };
+		}
 
 		if (null == id) {
 			new Principle().set("disease_id", diseaseId)
