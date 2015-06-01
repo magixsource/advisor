@@ -1,0 +1,77 @@
+<#include "/common/_header.html" />
+<#include "/common/_menu.html" />
+<#include "/common/_footer.html" />
+<@header>
+	<link href="/static/css/select2.css" rel="stylesheet">
+   	<link href="/static/css/style.css" rel="stylesheet">
+</@header>
+	
+		<@menu/>
+		<div class="span12">
+			<form class="form-horizontal" id="createForm" name="createForm" action="/person/save" method="post">
+				<input type="hidden" id="userid" name="userid" value="${(userid)!}" />
+				<input type="hidden" id="id" name="id" value="${(person.id)!}" />
+				
+				<!-- Rule begin -->
+				<div class="control-group">
+					<label class="control-label" for="name">姓名</label>
+					<div class="controls">
+						<input type="text" name="name" id="name" value="${(person.name)!}" />
+						<span class="help-inline">${nameMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="relationship">关系</label>
+					<div class="controls">
+						<select class="" id="relationship" name="relationship" value="${(person.relationship)!}">
+							  <#assign relationship = (person.relationship)!'' />
+							  <#list relationships as item>
+							  	<option 
+							  			<#if relationship == item.code>
+							  				selected="selected"
+							  			</#if>
+							  		value="${item.code}">
+							  		${item.title}
+							  	</option>
+							  </#list>
+						</select>
+						<span class="help-inline">${relationshipMsg!''}</span>
+					</div>
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="disease">疾患</label>
+				<div class="controls">
+					<select class="" multiple="multiple" id="disease" name="disease" value="${(person.disease)!}">
+						  <#assign arr=((person.disease)?split(","))! />
+						  <#list diseases as item>
+						  	<option 
+						  		<#list arr as str>
+						  			<#if str == item.id.toString()>
+						  				selected="selected"
+						  			</#if>
+						  		</#list>
+						  		value="${item.id}">
+						  		${item.name}
+						  	</option>
+						  </#list>
+					</select>
+					<span class="help-inline">${diseaseMsg!''}</span>
+				</div>
+			</div>
+				<!-- Rule End -->
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary" value="Save" />
+					</div>
+				</div>
+			</form>
+		</div>
+	
+<@footer>
+	<script src="/static/js/jquery.js"></script>
+	<script src="/static/js/select2.full.js"></script>
+	<script type="text/javascript">
+	  $('select').select2();
+	</script>
+</@footer>
