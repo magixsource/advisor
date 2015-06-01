@@ -26,7 +26,11 @@
 	              <button class="btn" type="submit">Go!</button>
 	            </div>
 	        </form>
-	        
+	    <#if tips??>
+	    	<div class="span12">
+	    		${tips}
+	    	</div>
+	    </#if>    
 		<#if page??>
 			<div class="span12">
 				<table class="table">
