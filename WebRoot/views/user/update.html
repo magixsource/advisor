@@ -12,10 +12,10 @@
 		<input type="hidden" id="id" name="id" value="${(user.id)!}" />
 		
 		<div class="control-group">
-			<label class="control-label" for="rule_more">用户名</label>
+			<label class="control-label" for="username">用户名</label>
 			<div class="controls">
 				<input type="text" name="username" readonly value="${(user.username)!}" />
-				<span class="help-inline">${rule_moreMsg!''}</span>
+				<span class="help-inline">${usernameMsg!''}</span>
 			</div>
 			
 			<br />
@@ -37,7 +37,7 @@
 						  	</option>
 						  </#list>
 					</select>
-					<span class="help-inline">${rule_moreMsg!''}</span>
+					<span class="help-inline">${diseaseMsg!''}</span>
 				</div>
 			</div>
 			
