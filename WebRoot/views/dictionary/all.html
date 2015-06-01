@@ -41,7 +41,7 @@
 				    </tr>
 				</#list>
 			</table>
+			<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/dictionary/all/${kindid}?page=" />
 		</div>
 		
-		<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/dictionary/all/${kindid}?page=" />
 <@footer/>
