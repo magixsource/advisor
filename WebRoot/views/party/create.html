@@ -1,0 +1,36 @@
+<#include "/common/_header.html" />
+<#include "/common/_menu.html" />
+<#include "/common/_footer.html" />
+<@header>
+	<link href="/static/css/select2.css" rel="stylesheet">
+   	<link href="/static/css/style.css" rel="stylesheet">
+</@header>
+	
+		<@menu/>
+		<div class="span12">
+			<form class="form-horizontal" id="createForm" name="createForm" action="/party/save" method="post">
+				<input type="hidden" id="userid" name="userid" value="${(userid)!}" />
+				<input type="hidden" id="id" name="id" value="${(party.id)!}" />
+				
+				<!-- Rule begin -->
+				<div class="control-group">
+					<label class="control-label" for="name">标题</label>
+					<div class="controls">
+						<input type="text" name="name" id="name" value="${(party.name)!}" />
+						<span class="help-inline">${nameMsg!''}</span>
+					</div>
+				</div>
+				
+				<!-- Rule End -->
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary" value="Save" />
+					</div>
+				</div>
+			</form>
+		</div>
+	
+<@footer>
+	<script src="/static/js/jquery.js"></script>
+</@footer>

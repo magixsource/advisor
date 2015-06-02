@@ -1,0 +1,38 @@
+<#include "/common/_header.html" />
+<#include "/common/_menu.html" />
+<#include "/common/_paginate.html" />
+<#include "/common/_footer.html" />
+<#include "/common/_auth.html" />
+
+<@header>
+	<link href="/static/css/style.css" rel="stylesheet">
+</@header>
+
+		<@menu/>
+		<div class="span12">
+			<@auth role="admin" />
+			<#if authResult>
+				<div class="text-right">
+					<a href="/party/create" class="btn btn-primary">Create</a>
+				</div>
+			</#if>
+			
+			<table class="table">
+				<tr>
+					<th>Name</th>
+					<th>Created</th>
+					<th>Operations</th>
+				</tr>
+				<#list page.list as party>
+				    <tr>
+				        <td>${party.name}</td>
+				        <td>${(party.createtime)?string("yyyy-MM-dd")}</td>
+				        <td><a class="btn btn-info" href="/party/update/${(party.id)!}">修改</a>
+				        	<a class="btn btn-info" href="/party/diners/${(party.id)!}">人员</a>
+				        </td>
+				    </tr>
+				</#list>
+			</table>
+			<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/party/list/" />
+		</div>
+<@footer />

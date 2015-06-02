@@ -1,0 +1,51 @@
+<#include "/common/_header.html" />
+<#include "/common/_menu.html" />
+<#include "/common/_footer.html" />
+<@header>
+	<link href="/static/css/select2.css" rel="stylesheet">
+   	<link href="/static/css/style.css" rel="stylesheet">
+</@header>
+	
+		<@menu/>
+		<div class="span12">
+			<form class="form-horizontal" id="createForm" name="createForm" action="/party/saveDiners" method="post">
+				<input type="hidden" id="partyid" name="partyid" value="${(partyid)!}" />
+				
+				<div class="control-group">
+					<label class="control-label" for="personids">参会人</label>
+					<div class="controls">
+						<select class="" multiple="multiple" id="personids" name="personids">
+							 
+							  <#list persons as person>
+							  	<option 
+							  		<#if diners??>
+								  		<#list diners as diner>
+								  			<#if diner.personid == person.id>
+								  				selected="selected"
+								  			</#if>
+								  		</#list>
+							  		</#if>	
+							  		value="${person.id}">
+							  		${person.name}
+							  	</option>
+							  </#list>
+						</select>
+						<span class="help-inline">${personidsMsg!''}</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary" value="Save" />
+					</div>
+				</div>
+			</form>
+		</div>
+	
+<@footer>
+	<script src="/static/js/jquery.js"></script>
+	<script src="/static/js/select2.full.js"></script>
+	<script type="text/javascript">
+	  $('select').select2();
+	</script>
+</@footer>
