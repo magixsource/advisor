@@ -1,8 +1,8 @@
-<#macro auth role>
+<#macro auth role="">
 	<#local isAuth = false />
 	
 	<#if (session.loginUser)??>
-		<#if session.loginUser.username == role>
+		<#if (session.loginUser.username == role || role == "")>
 			<#local isAuth = true />
 		</#if>
 	</#if>
