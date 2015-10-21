@@ -15,12 +15,19 @@ public class IngredientsController extends Controller {
 	 * pagination ingredients
 	 */
 	public void list() {
-		int pageNumber = getParaToInt(0, 1);
+		String name= getPara("name");
+		int pageNumber = getParaToInt("page", getParaToInt(0,1));
 		int pageSize = getParaToInt("pagesize", 10);
 
-		setAttr("page", Ingredient.dao.paginate(pageNumber, pageSize,
-				"select *", " from Ingredients"));
-
+		if(null!=name && name.length()>0){
+			setAttr("page",  Ingredient.dao.paginate(pageNumber, pageSize, "select *",
+					" from Ingredients where name like '%"+name+"%'"));
+			setAttr("name",name);
+		}else{
+			setAttr("page", Ingredient.dao.paginate(pageNumber, pageSize,
+					"select *", " from Ingredients"));
+		}
+		
 		render("list.html");
 	}
 

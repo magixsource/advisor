@@ -45,7 +45,10 @@
 				    </tr>
 				</#list>
 			</table>
-			<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/disease/list/" urlParas="name="+name />
+			<#if name??>
+					<#assign paras = "name="+name>
+			</#if>
+			<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/disease/list/" urlParas=paras!'' />
 		</div>
 		
 <@footer />

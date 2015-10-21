@@ -60,15 +60,22 @@ public class PartyController extends Controller {
 	 * List all party that login user is master
 	 */
 	public void list() {
-		int pageNumber = getParaToInt(0, 1);
+		String name= getPara("name");
+		int pageNumber = getParaToInt("page", getParaToInt(0,1));
 		int pageSize = getParaToInt("pagesize", 10);
 
 		User loginUser = getSessionAttr("loginUser");
 		int userId = loginUser.getInt("id");
 
-		setAttr("page", Party.dao.paginate(pageNumber, pageSize, "select *",
-				" from party where userid = " + userId));
-
+		if(null!=name && name.length()>0){
+			setAttr("page",  Party.dao.paginate(pageNumber, pageSize, "select *",
+					" from party where name like '%"+name+"%' and userid ="+userId));
+			setAttr("name",name);
+		}else{
+			setAttr("page", Party.dao.paginate(pageNumber, pageSize, "select *",
+					" from party where userid = " + userId));
+		}
+		
 		render("list.html");
 	}
 

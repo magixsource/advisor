@@ -42,14 +42,22 @@ public class PersonController extends Controller {
 	}
 
 	public void list() {
-		int pageNumber = getParaToInt(0, 1);
+		String name= getPara("name");
+		int pageNumber = getParaToInt("page", getParaToInt(0,1));
 		int pageSize = getParaToInt("pagesize", 10);
 
 		User loginUser = getSessionAttr("loginUser");
 		int userId = loginUser.getInt("id");
 
-		setAttr("page", Person.dao.paginate(pageNumber, pageSize, "select *",
-				" from person where userid = " + userId));
+		if(null!=name && name.length()>0){
+			setAttr("page", Person.dao.paginate(pageNumber, pageSize, "select *",
+					" from person where name like '%"+name+"%' and userid = " + userId));
+			setAttr("name",name);
+		}else{
+			setAttr("page", Person.dao.paginate(pageNumber, pageSize, "select *",
+					" from person where userid = " + userId));
+		}
+		
 		setAttr("relationships", Dictionary.dao.find(FIND_RELATIONSHIP_TYPE));
 
 		render("list.html");
