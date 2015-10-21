@@ -1,9 +1,11 @@
 package com.linpeng.advisor.common;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.linpeng.advisor.config.BaseConfig;
 import com.linpeng.advisor.model.Ingredient;
+import com.linpeng.advisor.model.Principle;
 
 /**
  * Advisor query functions
@@ -161,5 +163,18 @@ public class AdvisorUtils {
 					.toString();
 		}
 		throw new IllegalArgumentException(fieldName + " undefined !");
+	}
+
+	public static String sqlConditionGennerate(List<Principle> principles) {
+		// List<String> moreList = new ArrayList<String>();
+		// List<String> lessList = new ArrayList<String>();
+		// List<String> noList = new ArrayList<String>();
+		String moreStr = "";
+		for (Principle principle : principles) {
+			String ruleMore = principle.getStr("rule_more");
+			String ruleLess = principle.getStr("rule_less");
+			String ruleNo = principle.getStr("rule_no");
+		}
+		return null;
 	}
 }
