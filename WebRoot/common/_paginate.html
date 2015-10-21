@@ -5,6 +5,9 @@
 	
 	<#local endPage = currentPage + 4>
 	<#if (endPage > totalPage)><#local endPage = totalPage></#if>
+	<#if urlParas?length gt 0>
+		<#local urlParas = "?"+urlParas>
+	</#if>
 	
 	<div class="pagination pagination-centered">
 		<ul>
