@@ -58,15 +58,22 @@ public class DiseaseController extends Controller {
 		Disease.dao.deleteById(sid);
 		redirect("/disease/list");
 	}
-
+	
 	public void list() {
-		int pageNumber = getParaToInt(0, 1);
+		String name= getPara("name");
+		int pageNumber = getParaToInt("page", getParaToInt(0,1));
 		int pageSize = getParaToInt("pagesize", 10);
-
-		setAttr("page", Disease.dao.paginate(pageNumber, pageSize, "select *",
-				" from disease"));
+		
+		if(null!=name && name.length()>0){
+			setAttr("page", Disease.dao.paginate(pageNumber, pageSize, "select *",
+					" from disease where name like '%"+name+"%'"));
+			setAttr("name",name);
+		}else{
+			setAttr("page", Disease.dao.paginate(pageNumber, pageSize, "select *",
+					" from disease"));
+		}
+		
 		setAttr("dictionaryList", Dictionary.dao.find(FIND_DISEASE_DEPT));
-
 		render("list.html");
 	}
 }

@@ -18,6 +18,12 @@
 					<a href="/disease/create" class="btn btn-primary">Create</a>
 				</div>
 			</#if>
+			<form class="form-search" action="/disease/list" method="POST">
+				<input type="hidden" name="page" value="${page.pageNumber}">
+				<input type="text"  id="name" name="name" value="${name!''}" placeholder="输入名称查询" class="input-medium search-query">
+				<button type="submit" class="btn">Search</button>
+			</form>
+			
 			<table class="table">
 				<tr>
 					<th>Name</th>
@@ -39,7 +45,7 @@
 				    </tr>
 				</#list>
 			</table>
-			<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/disease/list/" />
+			<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/disease/list/" urlParas="name="+name />
 		</div>
 		
 <@footer />
