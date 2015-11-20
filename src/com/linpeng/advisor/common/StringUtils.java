@@ -36,7 +36,7 @@ public class StringUtils {
 			sb.append(str);
 			sb.append(delimiter);
 		}
-		return sb.substring(0, sb.length() - 1);
+		return sb.substring(0, sb.length() - delimiter.length());
 	}
 
 	/**
