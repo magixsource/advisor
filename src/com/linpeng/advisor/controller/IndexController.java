@@ -16,6 +16,7 @@ import com.linpeng.advisor.interceptor.AuthInterceptor;
 import com.linpeng.advisor.model.Dictionary;
 import com.linpeng.advisor.model.Disease;
 import com.linpeng.advisor.model.Ingredient;
+import com.linpeng.advisor.model.KV;
 import com.linpeng.advisor.model.Principle;
 
 /**
@@ -60,10 +61,11 @@ public class IndexController extends Controller {
 				Page<Ingredient> page = paginateIngredient(pageNumber,
 						pageSize, diseases, principles);
 
-				String tips = generateTipsByPrinciple(principles, true);
+				// String tips = generateTipsByPrinciple(principles, true);
+				Map<String, Object> tipsMap = generateTipsMapByPrinciple(principles);
 				setAttr("page", page);
 				setAttr("q", diseaseName);
-				setAttr("tips", tips);
+				setAttr("tips", tipsMap);
 			}
 
 		}
@@ -103,10 +105,10 @@ public class IndexController extends Controller {
 				Page<Ingredient> noFood = paginateIngredient(PrincipleRule.NO,
 						1, 5, diseases, principles);
 
-				Map<String, List<Ingredient>> foodMap = new HashMap<String, List<Ingredient>>();
-				foodMap.put("more", moreFood.getList());
-				foodMap.put("less", lessFood.getList());
-				foodMap.put("no", noFood.getList());
+				Map<String, List> foodMap = new HashMap<String, List>();
+				foodMap.put("more", zip(moreFood.getList()));
+				foodMap.put("less", zip(lessFood.getList()));
+				foodMap.put("no", zip(noFood.getList()));
 
 				map.put("q", diseaseName);
 				map.put("foods", foodMap);
@@ -116,26 +118,29 @@ public class IndexController extends Controller {
 		renderJson(map);
 	}
 
+	private List zip(List<Ingredient> list) {
+		List<KV> kvs = new ArrayList<KV>(list.size());
+		for (Ingredient ingredient : list) {
+			kvs.add(new KV(ingredient.getInt("id").toString(), ingredient
+					.getStr("name")));
+		}
+		return kvs;
+	}
+
 	/**
-	 * Generate tips
+	 * 构造贴士映射表
 	 * 
-	 * @param principle
-	 * @param isTranslate
+	 * @param principles
 	 * @return
 	 */
-	private String generateTipsByPrinciple(List<Principle> principles,
-			boolean isTranslate) {
+	private Map<String, Object> generateTipsMapByPrinciple(
+			List<Principle> principles) {
 		if (null == principles) {
-			return "找不到相关记录 :(";
+			return null;
 		}
-
 		String rule_more = principleRuleAsString(principles, "rule_more", ",");
 		String rule_less = principleRuleAsString(principles, "rule_less", ",");
 		String rule_no = principleRuleAsString(principles, "rule_no", ",");
-
-		String more = "多吃-%s";
-		String less = "少吃-%s";
-		String no = "不吃-%s";
 
 		List<Dictionary> list = Dictionary.dao
 				.find("select t.code,t.title from dictionary t where t.kind='APP_DICT_INGRED'");
@@ -160,6 +165,35 @@ public class IndexController extends Controller {
 		for (String s : rule_no.split(",")) {
 			noTip = noTip.replace(s, map.get(s));
 		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("more", moreTip);
+		result.put("less", lessTip);
+		result.put("no", noTip);
+		return result;
+	}
+
+	/**
+	 * Generate tips
+	 * 
+	 * @param principle
+	 * @param isTranslate
+	 * @return
+	 */
+	private String generateTipsByPrinciple(List<Principle> principles,
+			boolean isTranslate) {
+		if (null == principles) {
+			return "找不到相关记录 :(";
+		}
+
+		String more = "多吃-%s";
+		String less = "少吃-%s";
+		String no = "不吃-%s";
+
+		Map<String, Object> map = generateTipsMapByPrinciple(principles);
+		String moreTip = map.get("more").toString();
+		String lessTip = map.get("less").toString();
+		String noTip = map.get("no").toString();
 		if (isTranslate) {
 			return "小贴士：建议" + String.format(more, moreTip) + " "
 					+ String.format(less, lessTip) + " "
