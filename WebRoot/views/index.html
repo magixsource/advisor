@@ -5,6 +5,38 @@
 
 <@header>
 	<link href="/static/css/style.css" rel="stylesheet">
+	<style>
+	<!--
+			.tips-list{
+				background-color: #f6f6f6;
+			}
+			.tips-list ul{
+				/* float: left; */
+			}
+			.tips-list li{
+				list-style: none;
+				/* float: left; */
+			}
+			.tips-item{
+			}
+			.tips-header{
+				font-size: medium;
+				font-weight: bold;
+			}
+			.tips-body{
+			
+			}
+			.tips-more{
+				background: green;
+			}
+			.tips-less{
+				background: yellow;
+			}
+			.tips-no{
+				background: red;
+			}
+	-->
+	</style>
 </@header>
 		
 		<@menu/>
@@ -28,11 +60,42 @@
 	        </form>
 	    <#if tips??>
 	    	<div class="span12">
-	    		${tips}
+	    		<!-- ${tips} -->
+	    		小贴士：
+	    		<div class="tips-list">
+	    			<ul>
+	    				<li>
+	    					<div class="tips-item tips-more">
+	    						<div class="tips-header">多食</div>
+	    						<div class="tips-body">
+	    							${tips.get("more")}
+	    						</div>
+	    					</div>
+	    				</li>
+	    				<li>
+	    					<div class="tips-item  tips-less">
+	    						<div class="tips-header">少食</div>
+	    						<div class="tips-body">
+	    							${tips.get("less")}
+	    						</div>
+	    					</div>
+	    				</li>
+	    				<li>
+	    					<div class="tips-item tips-no">
+	    						<div class="tips-header">禁食</div>
+	    						<div class="tips-body">
+	    							${tips.get("no")}
+	    						</div>
+	    					</div>
+	    				</li>
+	    			</ul>
+	    		</div>
+	    		
 	    	</div>
 	    </#if>    
 		<#if page??>
 			<div class="span12">
+				推荐食用：
 				<table class="table">
 					<tr>
 						<th>名称</th>
@@ -57,7 +120,7 @@
 					    </tr>
 					</#list>
 				</table>
-				<@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/advise?q=${q}&page=" />
+				<!-- <@paginate currentPage = page.pageNumber totalPage = page.totalPage actionUrl = "/advise?q=${q}&page=" /> -->
 			</div>
 		</#if>
 		</div>
