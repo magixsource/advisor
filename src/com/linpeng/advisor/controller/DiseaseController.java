@@ -39,14 +39,14 @@ public class DiseaseController extends Controller {
 		String name = getPara("name");
 		String dept = getPara("dept");
 		String summary = getPara("summary");
-		String treatment = getPara("treatment");
+//		String treatment = getPara("treatment");
 
 		if (null == sid) {
 			new Disease().set("name", name).set("dept", dept)
-					.set("summary", summary).set("treatment", treatment).save();
+					.set("summary", summary).save();
 		} else {
 			Disease.dao.findById(sid).set("name", name).set("dept", dept)
-					.set("summary", summary).set("treatment", treatment)
+					.set("summary", summary)
 					.update();
 		}
 
