@@ -21,11 +21,11 @@ public class IngredientsController extends Controller {
 
 		if(null!=name && name.length()>0){
 			setAttr("page",  Ingredient.dao.paginate(pageNumber, pageSize, "select *",
-					" from Ingredients where name like '%"+name+"%'"));
+					" from ingredients where name like '%"+name+"%'"));
 			setAttr("name",name);
 		}else{
 			setAttr("page", Ingredient.dao.paginate(pageNumber, pageSize,
-					"select *", " from Ingredients"));
+					"select *", " from ingredients"));
 		}
 		
 		render("list.html");

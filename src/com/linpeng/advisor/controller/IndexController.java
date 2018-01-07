@@ -224,7 +224,7 @@ public class IndexController extends Controller {
 		for (int i = 0; i < diseases.size(); i++) {
 			ids[i] = diseases.get(i).getInt("id").toString();
 		}
-		String sql = "select * from Principle where disease_id in('"
+		String sql = "select * from principle where disease_id in('"
 				+ StringUtils.array2string(ids, "','") + "')";
 		return Principle.dao.find(sql);
 	}
