@@ -10,7 +10,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.linpeng.advisor.annotation.AopIgnore;
 import com.linpeng.advisor.common.AdvisorUtils;
-import com.linpeng.advisor.common.PrincipleRule;
+import com.linpeng.advisor.common.Constant.PRINCIPLE_ADVERB;
 import com.linpeng.advisor.common.StringUtils;
 import com.linpeng.advisor.interceptor.AuthInterceptor;
 import com.linpeng.advisor.model.Dictionary;
@@ -58,8 +58,7 @@ public class IndexController extends Controller {
 					setAttr("errorMsg", diseaseName + NOT_FOUND_SUFFIX);
 				}
 				// result
-				Page<Ingredient> page = paginateIngredient(pageNumber,
-						pageSize, diseases, principles);
+				Page<Ingredient> page = paginateIngredient(pageNumber, pageSize, diseases, principles);
 
 				// String tips = generateTipsByPrinciple(principles, true);
 				Map<String, Object> tipsMap = generateTipsMapByPrinciple(principles);
@@ -98,12 +97,9 @@ public class IndexController extends Controller {
 				}
 
 				// 取前五的数据
-				Page<Ingredient> moreFood = paginateIngredient(
-						PrincipleRule.MORE, 1, 5, diseases, principles);
-				Page<Ingredient> lessFood = paginateIngredient(
-						PrincipleRule.LESS, 1, 5, diseases, principles);
-				Page<Ingredient> noFood = paginateIngredient(PrincipleRule.NO,
-						1, 5, diseases, principles);
+				Page<Ingredient> moreFood = paginateIngredient(PRINCIPLE_ADVERB.MORE, 1, 5, diseases, principles);
+				Page<Ingredient> lessFood = paginateIngredient(PRINCIPLE_ADVERB.LESS, 1, 5, diseases, principles);
+				Page<Ingredient> noFood = paginateIngredient(PRINCIPLE_ADVERB.NO, 1, 5, diseases, principles);
 
 				Map<String, List> foodMap = new HashMap<String, List>();
 				foodMap.put("more", zip(moreFood.getList()));
@@ -121,8 +117,7 @@ public class IndexController extends Controller {
 	private List zip(List<Ingredient> list) {
 		List<KV> kvs = new ArrayList<KV>(list.size());
 		for (Ingredient ingredient : list) {
-			kvs.add(new KV(ingredient.getInt("id").toString(), ingredient
-					.getStr("name")));
+			kvs.add(new KV(ingredient.getInt("id").toString(), ingredient.getStr("name")));
 		}
 		return kvs;
 	}
@@ -133,8 +128,7 @@ public class IndexController extends Controller {
 	 * @param principles
 	 * @return
 	 */
-	private Map<String, Object> generateTipsMapByPrinciple(
-			List<Principle> principles) {
+	private Map<String, Object> generateTipsMapByPrinciple(List<Principle> principles) {
 		if (null == principles) {
 			return null;
 		}
@@ -180,8 +174,7 @@ public class IndexController extends Controller {
 	 * @param isTranslate
 	 * @return
 	 */
-	private String generateTipsByPrinciple(List<Principle> principles,
-			boolean isTranslate) {
+	private String generateTipsByPrinciple(List<Principle> principles, boolean isTranslate) {
 		if (null == principles) {
 			return "找不到相关记录 :(";
 		}
@@ -195,8 +188,7 @@ public class IndexController extends Controller {
 		String lessTip = map.get("less").toString();
 		String noTip = map.get("no").toString();
 		if (isTranslate) {
-			return "小贴士：建议" + String.format(more, moreTip) + " "
-					+ String.format(less, lessTip) + " "
+			return "小贴士：建议" + String.format(more, moreTip) + " " + String.format(less, lessTip) + " "
 					+ String.format(no, noTip);
 		} else {
 			return moreTip + ";" + lessTip + ";" + noTip;
@@ -204,8 +196,7 @@ public class IndexController extends Controller {
 
 	}
 
-	private String principleRuleAsString(List<Principle> principles,
-			String fieldName, String delimiter) {
+	private String principleRuleAsString(List<Principle> principles, String fieldName, String delimiter) {
 		StringBuffer ruleStr = new StringBuffer(100);
 		for (Principle principle : principles) {
 			ruleStr.append(principle.getStr(fieldName));
@@ -215,8 +206,7 @@ public class IndexController extends Controller {
 	}
 
 	private List<Disease> findDiseaseByName(String diseaseName) {
-		return Disease.dao.find("select * from disease where name in('"
-				+ diseaseName.replaceAll(";", "','") + "')");
+		return Disease.dao.find("select * from disease where name in('" + diseaseName.replaceAll(";", "','") + "')");
 	}
 
 	private List<Principle> findPrinciplesByDiseases(List<Disease> diseases) {
@@ -224,31 +214,21 @@ public class IndexController extends Controller {
 		for (int i = 0; i < diseases.size(); i++) {
 			ids[i] = diseases.get(i).getInt("id").toString();
 		}
-		String sql = "select * from principle where disease_id in('"
-				+ StringUtils.array2string(ids, "','") + "')";
+		String sql = "select * from principle where disease_id in('" + StringUtils.array2string(ids, "','") + "')";
 		return Principle.dao.find(sql);
 	}
 
-	private Page<Ingredient> paginateIngredient(int pageNumber, int pageSize,
-			List<Disease> diseases, List<Principle> principles) {
-		return Ingredient.dao.paginate(
-				pageNumber,
-				pageSize,
-				"select t.*",
-				" from ingredients t where "
-						+ conditionBuilder(null, principles));
+	private Page<Ingredient> paginateIngredient(int pageNumber, int pageSize, List<Disease> diseases,
+			List<Principle> principles) {
+		return Ingredient.dao.paginate(pageNumber, pageSize, "select t.*",
+				" from ingredients t where " + conditionBuilder(null, principles));
 	}
 
-	private Page<Ingredient> paginateIngredient(PrincipleRule rule,
-			int pageNumber, int pageSize, List<Disease> diseases,
-			List<Principle> principles) {
+	private Page<Ingredient> paginateIngredient(PRINCIPLE_ADVERB adverb, int pageNumber, int pageSize,
+			List<Disease> diseases, List<Principle> principles) {
 
-		return Ingredient.dao.paginate(
-				pageNumber,
-				pageSize,
-				"select t.*",
-				" from ingredients t where "
-						+ conditionBuilder(rule, principles));
+		return Ingredient.dao.paginate(pageNumber, pageSize, "select t.*",
+				" from ingredients t where " + conditionBuilder(adverb, principles));
 	}
 
 	/**
@@ -260,8 +240,7 @@ public class IndexController extends Controller {
 	 *            规则集合
 	 * @return 查询多，少，禁的SQL语句
 	 */
-	private String conditionBuilder(PrincipleRule rule,
-			List<Principle> principles) {
+	private String conditionBuilder(PRINCIPLE_ADVERB adverb, List<Principle> principles) {
 
 		if (principles == null || principles.isEmpty()) {
 			return "1=2";
@@ -271,18 +250,16 @@ public class IndexController extends Controller {
 		String ruleLess = null;
 		String ruleNo = null;
 
-		if (null == rule) {
+		if (null == adverb) {
 			ruleMore = principleRuleAsString(principles, "rule_more", delimiter);
 			ruleLess = principleRuleAsString(principles, "rule_less", delimiter);
 			ruleNo = principleRuleAsString(principles, "rule_no", delimiter);
 		} else {
-			if (rule.equals(PrincipleRule.MORE)) {// 单独取多的
-				ruleMore = principleRuleAsString(principles, "rule_more",
-						delimiter);
-			} else if (rule.equals(PrincipleRule.LESS)) {// 单独取少的
-				ruleLess = principleRuleAsString(principles, "rule_less",
-						delimiter);
-			} else if (rule.equals(PrincipleRule.NO)) {// 单独取禁的
+			if (adverb.value.equals(PRINCIPLE_ADVERB.MORE.value)) {// 单独取多的
+				ruleMore = principleRuleAsString(principles, "rule_more", delimiter);
+			} else if (adverb.value.equals(PRINCIPLE_ADVERB.LESS.value)) {// 单独取少的
+				ruleLess = principleRuleAsString(principles, "rule_less", delimiter);
+			} else if (adverb.value.equals(PRINCIPLE_ADVERB.NO.value)) {// 单独取禁的
 				ruleNo = principleRuleAsString(principles, "rule_no", delimiter);
 			}
 		}

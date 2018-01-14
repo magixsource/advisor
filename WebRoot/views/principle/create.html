@@ -10,22 +10,21 @@
 		<div class="span12">
 			<form class="form-horizontal" id="createForm" name="createForm" action="/principle/save" method="post">
 				<input type="hidden" id="diseaseid" name="diseaseid" value="${(diseaseid)!}" />
-				<input type="hidden" id="id" name="id" value="${(principle.id)!}" />
 				
 				<!-- Rule begin -->
 				<div class="control-group">
 					<label class="control-label" for="rule_more">多</label>
 					<div class="controls">
-						<select class="" multiple="multiple" id="rule_more" name="rule_more" value="${(principle.rule_more)!}">
-							  <#assign arrMore=((principle.rule_more)?split(","))! />
+						<select class="" multiple="multiple" id="rule_more" name="rule_more" value="${(morePrinciples)!}">
+							  <#assign arrMore=((morePrinciples)?split(","))! />
 							  <#list dictionaryIngredients as item>
 							  	<option 
 							  		<#list arrMore as str>
-							  			<#if str == item.code>
+							  			<#if str == item.id+"">
 							  				selected="selected"
 							  			</#if>
 							  		</#list>
-							  		value="${item.code}">
+							  		value="${item.id}">
 							  		${item.title}
 							  	</option>
 							  </#list>
@@ -36,16 +35,16 @@
 				<div class="control-group">
 					<label class="control-label" for="rule_less">少</label>
 					<div class="controls">
-						<select class="" multiple="multiple" id="rule_less" name="rule_less" value="${(principle.rule_less)!}">
-							  <#assign arrLess=((principle.rule_less)?split(","))! />
+						<select class="" multiple="multiple" id="rule_less" name="rule_less" value="${(lessPrinciples)!}">
+							  <#assign arrLess=((lessPrinciples)?split(","))! />
 							  <#list dictionaryIngredients as item>
 							  	<option 
 							  		<#list arrLess as str>
-							  			<#if str == item.code>
+							  			<#if str == item.id+"">
 							  				selected="selected"
 							  			</#if>
 							  		</#list>
-							  		value="${item.code}">
+							  		value="${item.id}">
 							  		${item.title}
 							  	</option>
 							  </#list>
@@ -56,16 +55,16 @@
 				<div class="control-group">
 					<label class="control-label" for="rule_no">禁</label>
 					<div class="controls">
-						<select class="" multiple="multiple" id="rule_no" name="rule_no" value="${(principle.rule_no)!}">
-							  <#assign arrNo=((principle.rule_no)?split(","))! />
+						<select class="" multiple="multiple" id="rule_no" name="rule_no" value="${(noPrinciples)!}">
+							  <#assign arrNo=((noPrinciples)?split(","))! />
 							  <#list dictionaryIngredients as item>
 							  	<option 
 							  		<#list arrNo as str>
-							  			<#if str == item.code>
+							  			<#if str == item.id+"">
 							  				selected="selected"
 							  			</#if>
 							  		</#list>
-							  		value="${item.code}">
+							  		value="${item.id}">
 							  		${item.title}
 							  	</option>
 							  </#list>

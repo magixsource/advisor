@@ -20,6 +20,13 @@ public class StringUtils {
 	public static String array2string(String[] array) {
 		return array2string(array, DEFAULT_DELIMITER_STRING);
 	}
+	public static String array2string(Object[] array) {
+		String[] strs = new String[array.length];
+		for (int i = 0; i < array.length; i++) {
+			strs[i] = array[i].toString();
+		}
+		return array2string(strs, DEFAULT_DELIMITER_STRING);
+	}
 
 	/**
 	 * According delimiter parse array to string

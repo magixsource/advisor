@@ -1,8 +1,17 @@
 package com.linpeng.advisor.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.tx.Tx;
+import com.linpeng.advisor.common.Constant;
+import com.linpeng.advisor.common.Constant.PRINCIPLE_ACTION;
+import com.linpeng.advisor.common.Constant.PRINCIPLE_ADVERB;
+import com.linpeng.advisor.common.Constant.PRINCIPLE_CAUSE_TYPE;
+import com.linpeng.advisor.common.Constant.PRINCIPLE_TARGET_TYPE;
+import com.linpeng.advisor.common.Constant.PRINCIPLE_TYPE;
 import com.linpeng.advisor.common.StringUtils;
 import com.linpeng.advisor.model.Dictionary;
 import com.linpeng.advisor.model.Principle;
@@ -25,31 +34,61 @@ public class PrincipleController extends Controller {
 
 	public void modify() {
 		// get id
-		int id = getParaToInt(0);
-		Principle principle = Principle.dao.findById(id);
+		int diseaseId = getParaToInt(0);
+		List<Principle> principles = Principle.dao.find(
+				"select * from principle where type=? and cause_type = ? and cause_id = ?",
+				Constant.PRINCIPLE_TYPE.HEALTH.value, Constant.PRINCIPLE_CAUSE_TYPE.DISEASE.value, diseaseId);
 
-		int diseaseId = principle.getInt("disease_id");
 		setAttr("diseaseid", diseaseId);
 
-		setAttr("principle", principle);
+		List<Integer> morePrinciples = new ArrayList<Integer>(), lessPrinciples = new ArrayList<Integer>(),
+				noPrinciples = new ArrayList<Integer>();
+		for (Principle principle : principles) {
+			int adverb = principle.getInt("adverb");
+			int targetId = principle.getInt("target_id");
+			if (PRINCIPLE_ADVERB.MORE.value == adverb) {
+				morePrinciples.add(targetId);
+			} else if (PRINCIPLE_ADVERB.LESS.value == adverb) {
+				lessPrinciples.add(targetId);
+			} else if (PRINCIPLE_ADVERB.NO.value == adverb) {
+				noPrinciples.add(targetId);
+			}
+		}
+
+		if (morePrinciples != null && !morePrinciples.isEmpty()) {
+			setAttr("morePrinciples",
+					StringUtils.array2string(morePrinciples.toArray(new Integer[morePrinciples.size()])));
+		}
+		if (lessPrinciples != null && !lessPrinciples.isEmpty()) {
+			setAttr("lessPrinciples",
+					StringUtils.array2string(lessPrinciples.toArray(new Integer[lessPrinciples.size()])));
+		}
+		if (noPrinciples != null && !noPrinciples.isEmpty()) {
+			setAttr("noPrinciples", StringUtils.array2string(noPrinciples.toArray(new Integer[noPrinciples.size()])));
+		}
 		setAttr("dictionaryIngredients", Dictionary.dao.find(FIND_FOOD_INGRED));
 		render("create.html");
 	}
 
 	public void view() {
-		int id = getParaToInt(0);
-		setAttr("principle", Principle.dao.findById(id));
+		int diseaseId = getParaToInt(0);
+		List<Principle> principles = Principle.dao.find(
+				"select * from principle where type=? and cause_type = ? and cause_id = ?",
+				Constant.PRINCIPLE_TYPE.HEALTH.value, Constant.PRINCIPLE_CAUSE_TYPE.DISEASE.value, diseaseId);
+
+		setAttr("principles", Principle.dao.findById(principles));
 		setAttr("dictionaryIngredients", Dictionary.dao.find(FIND_FOOD_INGRED));
 	}
 
 	public void show() {
 		int diseaseId = getParaToInt(0);
-		Principle principle = Principle.dao.findFirst(
-				"select * from principle where disease_id = ?", diseaseId);
-		if (null == principle) {
+		List<Principle> principles = Principle.dao.find(
+				"select id from principle where type=? and cause_type = ? and cause_id = ?",
+				Constant.PRINCIPLE_TYPE.HEALTH.value, Constant.PRINCIPLE_CAUSE_TYPE.DISEASE.value, diseaseId);
+		if (null == principles || principles.isEmpty()) {
 			redirect("/principle/create/" + diseaseId);
 		} else {
-			redirect("/principle/modify/" + principle.getInt("id"));
+			redirect("/principle/modify/" + diseaseId);
 		}
 	}
 
@@ -60,32 +99,40 @@ public class PrincipleController extends Controller {
 		String[] ruleMore = getParaValues("rule_more");
 		String[] ruleLess = getParaValues("rule_less");
 		String[] ruleNo = getParaValues("rule_no");
-		if (ruleMore == null) {
-			ruleMore = new String[] { "" };
+
+		if (null != id) {
+			batchDelete(diseaseId);
 		}
-		if (ruleLess == null) {
-			ruleLess = new String[] { "" };
+		batchSave(ruleMore, Constant.PRINCIPLE_ADVERB.MORE, diseaseId);
+		batchSave(ruleNo, Constant.PRINCIPLE_ADVERB.NO, diseaseId);
+		batchSave(ruleLess, Constant.PRINCIPLE_ADVERB.LESS, diseaseId);
+
+		redirect("/principle/modify/" + diseaseId);
+	}
+
+	private void batchDelete(int diseaseId) {
+		List<Principle> list = Principle.dao.find(
+				"select * from principle where type=? and cause_type=? and cause_id=?", PRINCIPLE_TYPE.HEALTH.value,
+				PRINCIPLE_CAUSE_TYPE.DISEASE.value, diseaseId);
+		for (Principle principle : list) {
+			principle.delete();
 		}
-		if (ruleNo == null) {
-			ruleNo = new String[] { "" };
+	}
+
+	private void batchSave(String[] arr, PRINCIPLE_ADVERB adverb, int causeId) {
+		if (null == arr || arr.length == 0) {
+			return;
 		}
 
-		if (null == id) {
-			new Principle().set("disease_id", diseaseId)
-					.set("rule_more", StringUtils.array2string(ruleMore))
-					.set("rule_less", StringUtils.array2string(ruleLess))
-					.set("rule_no", StringUtils.array2string(ruleNo)).save();
-		} else {
-			Principle.dao.findById(id)
-					.set("rule_more", StringUtils.array2string(ruleMore))
-					.set("rule_less", StringUtils.array2string(ruleLess))
-					.set("rule_no", StringUtils.array2string(ruleNo)).update();
+		// TODO Here need batch save method,Do not use for-each
+		for (String str : arr) {
+			new Principle().set("type", PRINCIPLE_TYPE.HEALTH.value)
+					.set("cause_type", PRINCIPLE_CAUSE_TYPE.DISEASE.value).set("cause_id", causeId)
+					.set("adverb", adverb.value).set("action", PRINCIPLE_ACTION.EAT.value)
+					.set("target_type", PRINCIPLE_TARGET_TYPE.INGREDIENT.value).set("target_id", Integer.valueOf(str))
+					.save();
 		}
 
-		Principle principle = Principle.dao.findFirst(
-				"select * from principle where disease_id = ?", diseaseId);
-
-		redirect("/principle/modify/" + principle.getInt("id"));
 	}
 
 }
